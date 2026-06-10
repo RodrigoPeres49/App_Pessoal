@@ -1,0 +1,53 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<h2>Editar Exercício</h2>
+
+<div class="form">
+
+    <form method="POST">
+    
+        <label>Exercício:</label><br>
+            <select name="exercicio" required>
+                {% for ex in exercicios %}
+                    <option value="{{ ex.exercicio }}"
+                        {% if ex.exercicio == exercicio.exercicio %}selected{% endif %}>
+                        {{ ex.exercicio }}
+                    </option>
+                {% endfor %}
+            </select>
+    
+        <label>Série</label>
+        <select name="serie" required>
+            <option value="1º" {% if exercicio.serie == "1º" %}selected{% endif %}>1º</option>
+            <option value="1º complementar" {% if exercicio.serie == "1º complementar" %}selected{% endif %}>1º complementar</option>
+        
+            <option value="2º" {% if exercicio.serie == "2º" %}selected{% endif %}>2º</option>
+            <option value="2º complementar" {% if exercicio.serie == "2º complementar" %}selected{% endif %}>2º complementar</option>
+        
+            <option value="3º" {% if exercicio.serie == "3º" %}selected{% endif %}>3º</option>
+            <option value="3º complementar" {% if exercicio.serie == "3º complementar" %}selected{% endif %}>3º complementar</option>
+        
+            <option value="4º" {% if exercicio.serie == "4º" %}selected{% endif %}>4º</option>
+            <option value="4º complementar" {% if exercicio.serie == "4º complementar" %}selected{% endif %}>4º complementar</option>
+        
+            <option value="5º" {% if exercicio.serie == "5º" %}selected{% endif %}>5º</option>
+            <option value="5º complementar" {% if exercicio.serie == "5º complementar" %}selected{% endif %}>5º complementar</option>
+        </select>
+    
+        <label>Repetições:</label>
+        <input type="number" value="{{exercicio.repeticoes}}" name="repeticoes" required>
+    
+        <label>KG ou Tempo:</label>
+        <input type="text" value="{{exercicio.kg_tempo}}" name="kg_tempo" required>
+    
+        <button type="submit">Salvar</button>
+    
+    </form>
+
+</div>
+
+
+<a class="acao" href="/exercicio">Voltar</a>
+{% endblock %}

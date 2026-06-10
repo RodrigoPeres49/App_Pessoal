@@ -1,0 +1,104 @@
+{% extends "index.html" %}
+
+
+{% block content %}
+
+    <h2>Bem vindo {% if usuario %}{{ usuario.nome }}{% endif %}</h2>
+    <div class="dados-usuario">
+        <h3>Dados do Usuário</h3>
+        <ul>
+            <li>Sexo: {{usuario.sexo}}</li>
+            <li>Altura: {{ usuario.altura|round(2) }} m</li>
+            <li>Data de Nascimento: {{usuario.data_nasc.strftime("%d/%m/%Y")}}</li>
+            <li>Peso: {{usuario.peso}} - Meta: {{usuario.meta_peso}}</li>
+            <li>Massa Magra: {{usuario.massa_magra}} - Meta: {{usuario.meta_massa_magra}}</li>
+            <li>Massa Gorda: {{usuario.massa_gorda}} - Meta: {{usuario.meta_massa_gorda}}</li>
+        </ul>
+
+        <h3>Consumo Diário</h3>
+        
+        <table>
+            <tr>
+                <th colspan="2">Calorias Diárias</th>
+            </tr>
+            <tr>
+                <td>Meta</td>
+                <td>Consumo</td>
+            </tr>
+            <tr>
+                <td>{{ usuario.calorias_diarias }}</td>
+                <td>{{ calorias_consumidas }}</td>
+            </tr>
+        </table>
+        
+        <table>
+            <tr>
+                <th colspan="2">Carboidratos Diários</th>
+            </tr>
+            <tr>
+                <td>Meta</td>
+                <td>Consumo</td>
+            </tr>
+            <tr>
+                <td>{{ usuario.carboidratos_diarios }}</td>
+                <td>{{ carboidratos_consumidos }}</td>
+            </tr>
+        </table>
+        
+        <table>
+            <tr>
+                <th colspan="2">Proteínas Diárias</th>
+            </tr>
+            <tr>
+                <td>Meta</td>
+                <td>Consumo</td>
+            </tr>
+            <tr>
+                <td>{{ usuario.proteinas_diarias }}</td>
+                <td>{{ proteinas_consumidas }}</td>
+            </tr>
+        </table>
+        
+        <table>
+            <tr>
+                <th colspan="2">Fibras Diárias</th>
+            </tr>
+            <tr>
+                <td>Meta</td>
+                <td>Consumo</td>
+            </tr>
+            <tr>
+                <td>{{ usuario.fibras_diarias }}</td>
+                <td>{{ fibras_consumidas }}</td>
+            </tr>
+        </table>
+        
+        <table>
+            <tr>
+                <th colspan="2">Gorduras Diárias</th>
+            </tr>
+            <tr>
+                <td>Meta</td>
+                <td>Consumo</td>
+            </tr>
+            <tr>
+                <td>{{ usuario.gorduras_diarias }}</td>
+                <td>{{ gorduras_consumidas }}</td>
+            </tr>
+        </table>
+
+
+    </div>
+    <div class="comandos">
+        <h2>Selecione uma alternativa:</h2>
+        <a href="/alimentacao">Refeição</a>
+        <a href="/exercicio">Exercício</a>
+        <a href="/cardio">Registrar Cárdio</a>
+        <a href="/avaliacao-fisica">Avaliação Física</a>
+        <a href="/pressao">Registrar Pressão Arterial</a>
+    </div>
+
+    {{hoje.strftime("%d/%m/%Y")}}
+    <a href="/logout">Sair</a>
+
+{% endblock %}

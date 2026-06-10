@@ -1,0 +1,66 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<h2>Registrar Refeição</h2>
+
+<div class="form">
+
+    <form method="POST">
+    
+    <label>Nova refeição:</label><br>
+            <select name="alimento" required>
+                <option value="">Selecione um alimento</option>
+        
+                {% for ex in refeicoes %}
+                    <option value="{{ ex.alimento }}">{{ ex.alimento }}</option>
+                {% endfor %}
+    
+            </select>
+    
+        <label>Quantidade (g ou unidade):</label>
+        <input type="text" name="quantidade" required>
+    
+        <button type="submit">Salvar</button>
+    
+    </form>
+</div>
+
+<h2>Refeições Adicionadas</h2>
+
+<div class="lista">
+    <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Alimento</th>
+            <th>Quantidade</th>
+            <th>Calorias</th>
+            <th>Proteínas</th>
+            <th>Ações</th>
+          </tr> 
+        </thead>
+        <tbody>
+            
+            {% for ex in lista %}
+            <tr>
+                <td>{{ ex.data }}</td>
+                <td>{{ ex.hora }}</td>
+                <td>{{ ex.alimento }}</td>
+                <td>{{ ex.quantidade }}</td>
+                <td>{{ ex.calorias }}</td>
+                <td>{{ ex.proteinas }}</td>
+                <td><a class="acao" href="/editar-refeicao/{{ex['id']}}">Editar</a><a class="acao" href="/excluir-refeicao/{{ex['id']}}">Excluir</a></td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+</div>
+
+<a class="acao" href="/novo-alimento">Adicionar novo Alimento</a>
+
+<a class="acao" href="/">Voltar</a>
+{% endblock %}

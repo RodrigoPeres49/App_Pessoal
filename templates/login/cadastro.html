@@ -1,0 +1,37 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<h2>Novo Usuário</h2>
+
+<div class="form">
+
+    <form method="POST">
+    
+        <label>Nome Completo</label>
+        <input type="text" name="nome" required>
+
+        <label>Email</label>
+        <input type="text" name="email" required>
+
+        <label>Data de Nascimento</label>
+        <input type="date" name="data_nasc" required>
+
+        <label>Sexo</label>
+        <select name="sexo" id="">
+            <option value="feminino">Feminino</option>
+            <option value="masculino">Masculino</option>
+        </select> 
+    
+        <label>Senha</label>
+        <input type="password" name="senha" required>
+
+        <button type="submit">Salvar</button>
+    
+    </form>
+</div>
+
+
+
+<a class="acao" href="/cadastro">Novo Usuário</a>
+{% endblock %}

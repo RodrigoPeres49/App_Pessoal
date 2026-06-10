@@ -1,0 +1,4 @@
+ARQUIVO = {
+    "Tabelas": "Tabelas.xlsx",
+}
+

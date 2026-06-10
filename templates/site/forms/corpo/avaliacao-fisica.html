@@ -1,0 +1,143 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<h2>Avaliação Física</h2>
+
+<div class="form">
+
+    
+
+    <form method="POST">
+
+        <h3>--- Geral ---</h3>
+
+        <label>Data</label>
+        <input type="date" name="data" required>
+
+        <label>Peso (kg)</label>
+        <input type="text" name="peso" required>
+
+        <label>Altura (m)</label>
+        <input type="text" name="altura" required>
+    
+        <h3>--- Dobras Cutâneas ---</h3>
+
+        <label>Subescapular</label>
+        <input type="text" name="subescapular">
+
+        <label>Bicipital</label>
+        <input type="text" name="bicipital">
+
+        <label>Tricipital</label>
+        <input type="text" name="tricipital">
+
+        <label>Axilar Média</label>
+        <input type="text" name="axilar_media">
+
+        <label>Supra Ilíaca</label>
+        <input type="text" name="supra_iliaca">
+
+        <label>Supra Espinhal</label>
+        <input type="text" name="supra_espinhal">
+
+        <label>Peitoral</label>
+        <input type="text" name="peitoral">
+
+        <label>Abdominal</label>
+        <input type="text" name="abdominal">
+
+        <label>Coxa</label>
+        <input type="text" name="coxa">
+
+        <label>Panturrilha</label>
+        <input type="text" name="panturrilha">
+
+        <h3>--- Perímetros Corporais ---</h3>
+
+        <label>Ombro</label>
+        <input type="text" name="ombro">
+
+        <label>Tórax Inspirado</label>
+        <input type="text" name="torax_inspirado">
+
+        <label>Cintura</label>
+        <input type="text" name="cintura">
+
+        <label>Abdômen</label>
+        <input type="text" name="abdomen">
+
+        <label>Quadril</label>
+        <input type="text" name="quadril">
+
+        <label>Antebraço Direito</label>
+        <input type="text" name="antebraco_direito">
+
+        <label>Antebraço Esquerdo</label>
+        <input type="text" name="antebraco_esquerdo">
+
+        <label>Braço Contraído Direito</label>
+        <input type="text" name="braco_contraido_direito">
+
+        <label>Braço Contraído Esquerdo</label>
+        <input type="text" name="braco_contraido_esquerdo">
+
+        <label>Coxa Direita</label>
+        <input type="text" name="coxa_direita">
+
+        <label>Coxa Esquerda</label>
+        <input type="text" name="coxa_esquerda">
+
+        <label>Panturrilha Direita</label>
+        <input type="text" name="panturrilha_direita">
+
+        <label>Panturrilha Esquerda</label>
+        <input type="text" name="panturrilha_esquerda">
+
+        <button type="submit">Salvar</button>
+
+    </form>
+
+</div>
+
+<div class="lista">
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Peso</th>
+                <th>IMC</th>
+                <th>% Gordura</th>
+                <th>Massa Magra</th>
+                <th>Massa Gorda</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for av in avaliacoes %}
+
+            <tr>
+                <td>{{ av.data.strftime("%d/%m/%Y") }}</td>
+                <td>{{ av.peso }}</td>
+                <td>{{ av.imc }}</td>
+                <td>{{ av.percentual_gordura }}</td>
+                <td>{{ av.massa_magra }}</td>
+                <td>{{ av.massa_gorda }}</td>
+                <td><a href="/editar-avaliacao/{{av.id}}">Editar</a><a href="/excluir-avaliacao/{{av.id}}">Excluir</a></td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<a class="acao" href="/">Voltar</a>
+
+{% endblock %}

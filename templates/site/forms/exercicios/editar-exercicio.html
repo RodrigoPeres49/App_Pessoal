@@ -1,0 +1,50 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<h2>Editar Alimento</h2>
+
+<div class="form">
+
+    <form method="POST">
+    
+        <label>Nome do exercicio</label><br>
+        <input type="text" name="exercicio" value="{{exercicio.exercicio}}" required>
+
+        <label>Grupo Muscular</label>
+        <select name="grupo_muscular" required>
+            <option value="">Selecione</option>
+            <option value="Mobilidade">Mobilidade</option>
+            <option value="Peitoral">Peitoral</option>
+            <option value="Costas">Costas</option>
+            <option value="Ombros">Ombros</option>
+            <option value="Trapézio">Trapézio</option>
+            <option value="Bíceps">Bíceps</option>
+            <option value="Tríceps">Tríceps</option>
+            <option value="Antebraço">Antebraço</option>
+            <option value="Quadríceps">Quadríceps</option>
+            <option value="Posterior de Coxa">Posterior de Coxa</option>
+            <option value="Glúteos">Glúteos</option>
+            <option value="Adutores">Adutores</option>
+            <option value="Abdutores">Abdutores</option>
+            <option value="Panturrilhas">Panturrilhas</option>
+            <option value="Abdômen">Abdômen</option>
+            <option value="Lombar">Lombar</option>
+            <option value="Core">Core</option>
+            <option value="Corpo Inteiro">Corpo Inteiro</option>
+        </select>
+
+        <label>Fator Calorias</label><br>
+        <input type="text" name="exercicio" value="{{exercicio.fator_calorias}}" required>
+
+     
+        <button type="submit">Salvar</button>
+    
+    </form>
+</div>
+
+
+
+
+<a class="acao" href="/">Voltar</a>
+{% endblock %}

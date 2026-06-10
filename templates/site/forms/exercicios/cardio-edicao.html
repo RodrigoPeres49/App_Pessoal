@@ -1,0 +1,58 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<h2>Editar Cardio</h2>
+
+<div class="form">
+
+    <form method="POST">
+
+        <label>Data</label>
+        <input type="date" name="data" value="{{cardio.data}}">
+
+        <label>Hora</label>
+        <input type="time" name="hora" value="{{cardio.hora}}">
+
+        <label>Tipo de cardio:</label>
+
+        <select name="atividade" value="{{cardio.atividade}}" required>
+            <option value="Caminhada">Caminhada</option>
+            <option value="Corrida">Corrida</option>
+            <option value="Bicicleta">Bicicleta</option>
+            <option value="Esteira">Esteira</option>
+            <option value="Escada">Escada</option>
+            <option value="Elíptico">Elíptico</option>
+            <option value="Natação">Natação</option>
+            <option value="Outro">Outro</option>
+        </select>
+
+        <label>Duração (minutos):</label>
+        <input type="text" name="duracao" value="{{cardio.duracao}}" required>
+
+        <label>Distância (km):</label>
+        <input type="text" name="distancia" value="{{cardio.distancia}}">
+
+        <label>Calorias queimadas:</label>
+        <input type="number" name="calorias" value="{{cardio.calorias}}">
+
+        <label>Frequência cardíaca média:</label>
+        <input type="number" name="frequencia_media" value="{{cardio.frequencia_media}}">
+
+        <label>Frequência cardíaca máxima:</label>
+        <input type="number" name="frequencia_maxima" value="{{cardio.frequencia_maxima}}">
+
+        <label>Observações:</label>
+        <textarea name="observacoes">{{cardio.observacoes}}</textarea>
+
+        <button type="submit">Salvar</button>
+
+    </form>
+
+</div>
+
+
+
+<a class="acao" href="/cardio">Voltar</a>
+
+{% endblock %}

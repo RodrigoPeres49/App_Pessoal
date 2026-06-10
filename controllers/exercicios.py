@@ -1,0 +1,214 @@
+from flask import request, render_template, Blueprint, session
+from datetime import datetime
+from models import Exercicio, ListaExercicio, Usuario
+from database import db
+
+bp_exercicios = Blueprint("exercicios", __name__)
+
+
+# ADD EXERCICIO
+
+@bp_exercicios.route("/exercicio", methods=["GET", "POST"])
+def add_exercicio():
+
+    lista_exercicios = ListaExercicio.query.all()
+    usuario = Usuario.query.get(session["usuario_id"])
+
+    if request.method == "POST":
+
+        exercicio = request.form["exercicio"]
+        exercicio_info = ListaExercicio.query.filter_by(exercicio=exercicio).first()
+        grupo_muscular = exercicio_info.grupo_muscular
+        serie = str(request.form["serie"])
+        repeticoes = int(request.form["repeticoes"])
+        kg_tempo = float(request.form["kg_tempo"].replace(",", "."))
+        calorias = round(repeticoes * kg_tempo * exercicio_info.fator_calorias * usuario.peso/1000,2)
+        agora = datetime.now()
+        data = agora
+        hora = agora.strftime("%H:%M:%S")
+        
+        novo_exercicio = Exercicio(
+            usuario_id=session["usuario_id"],
+            data=data,
+            hora=hora,
+            exercicio=exercicio,
+            grupo_muscular = grupo_muscular,
+            calorias = calorias,
+            serie=serie,
+            repeticoes=repeticoes,
+            kg_tempo=kg_tempo
+        )
+
+        db.session.add(novo_exercicio)
+
+        db.session.commit()
+
+    lista = Exercicio.query.filter_by(usuario_id=session["usuario_id"]).order_by(Exercicio.id.desc()).all()
+
+    return render_template(
+        "site/forms/exercicios/exercicio.html",
+        exercicios=lista_exercicios,
+        lista=lista
+    )
+
+
+# EDITAR EXERCICIO
+
+@bp_exercicios.route("/editar-exercicio/<int:id>", methods=["GET", "POST"])
+def editar_exercicio(id):
+
+    exercicio = Exercicio.query.filter_by(id=id, usuario_id=session["usuario_id"]).first()
+    usuario = Usuario.query.get(session["usuario_id"])
+
+    if not exercicio:
+        return render_template(
+            "mensagem.html",
+            mensagem="Exercício não encontrado.",
+            link="/exercicio"
+        )
+
+    lista_exercicios = ListaExercicio.query.all()
+
+    if request.method == "POST":
+
+        exercicio.exercicio = request.form["exercicio"]
+        exercicio_info = ListaExercicio.query.filter_by(exercicio=exercicio.exercicio).first()
+        exercicio.grupo_muscular = exercicio_info.grupo_muscular
+        exercicio.serie = str(request.form["serie"])
+        exercicio.repeticoes = int(request.form["repeticoes"])
+        exercicio.kg_tempo = float(request.form["kg_tempo"].replace(",", "."))
+        exercicio.calorias = round(exercicio.repeticoes * exercicio.kg_tempo * exercicio_info.fator_calorias * usuario.peso/1000,2)
+
+        db.session.commit()
+
+        return render_template(
+            "mensagem.html",
+            mensagem="Exercício atualizado com sucesso!",
+            link="/exercicio"
+        )
+
+    return render_template(
+        "site/forms/exercicios/exercicio-edicao.html",
+        exercicio=exercicio,
+        exercicios=lista_exercicios
+    )
+
+
+# EXCLUIR EXERCÍCIO
+
+@bp_exercicios.route("/excluir-exercicio/<int:id>")
+def excluir_exercicio(id):
+
+    exercicio = Exercicio.query.filter_by(id=id, usuario_id=session["usuario_id"]).first()
+
+    if not exercicio:
+        return render_template(
+            "mensagem.html",
+            mensagem="Exercício não encontrado.",
+            link="/exercicio"
+        )
+
+    db.session.delete(exercicio)
+
+    db.session.commit()
+
+    return render_template(
+        "mensagem.html",
+        mensagem="Exercício excluído com sucesso!",
+        link="/exercicio"
+    )
+
+
+#######################################################################
+# LISTA DE EXERCICIOS
+#######################################################################
+
+# ADICIONAR NOVO EXERCICIO
+
+@bp_exercicios.route("/novo-exercicio", methods=["GET", "POST"])
+def add_exercicio_lista():
+
+    if request.method == "POST":
+
+        exercicio = request.form["exercicio"]
+
+        grupo_muscular = request.form["grupo_muscular"]
+
+        novo_exercicio = ListaExercicio(
+            exercicio=exercicio,
+            grupo_muscular=grupo_muscular
+        )
+
+        db.session.add(novo_exercicio)
+
+        db.session.commit()
+
+    exercicios = ListaExercicio.query.order_by(
+        ListaExercicio.exercicio.asc()
+    ).all()
+
+    return render_template(
+        "/site/forms/exercicios/add-exercicio.html",
+        exercicios=exercicios
+    )
+
+
+# EDITAR EXERCICIO DA LISTA
+
+@bp_exercicios.route(
+    "/editar-exercicio-lista/<int:id>",
+    methods=["GET", "POST"]
+)
+def editar_exercicio_lista(id):
+
+    item = ListaExercicio.query.get(id)
+
+    if not item:
+        return render_template(
+            "mensagem.html",
+            mensagem="Exercício não encontrado!",
+            link="/novo-exercicio"
+        )
+
+    if request.method == "POST":
+
+        item.exercicio = request.form["exercicio"]
+        item.grupo_muscular = int(request.form["grupo_muscular"])
+
+        db.session.commit()
+
+        return render_template(
+            "mensagem.html",
+            mensagem="Exercício atualizado com sucesso!",
+            link="/novo-exercicio"
+        )
+
+    return render_template(
+        "site/forms/exercicios/editar-exercicio.html",
+        exercicio=item
+    )
+
+
+# EXCLUIR EXERCICIO DA LISTA
+
+@bp_exercicios.route("/excluir-exercicio-lista/<int:id>")
+def excluir_exercicio_lista(id):
+
+    item = ListaExercicio.query.filter_by(id=id, usuario_id=session["usuario_id"]).first()
+
+    if not item:
+        return render_template(
+            "mensagem.html",
+            mensagem="Exercício não encontrado.",
+            link="/novo-exercicio"
+        )
+
+    db.session.delete(item)
+
+    db.session.commit()
+
+    return render_template(
+        "mensagem.html",
+        mensagem="Exercício Excluído com Sucesso.",
+        link="/novo-exercicio"
+    )

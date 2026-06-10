@@ -1,0 +1,69 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<h2>Registrar Exercício</h2>
+
+<div class="form">
+
+    <form method="POST">
+    
+        <label>Nome do exercício</label><br>
+        <input type="text" name="exercicio" required>
+    
+    <label>Grupo Muscular</label>
+    <select name="grupo_muscular" required>
+        <option value="">Selecione</option>
+        <option value="Mobilidade">Mobilidade</option>
+        <option value="Peitoral">Peitoral</option>
+        <option value="Costas">Costas</option>
+        <option value="Ombros">Ombros</option>
+        <option value="Trapézio">Trapézio</option>
+        <option value="Bíceps">Bíceps</option>
+        <option value="Tríceps">Tríceps</option>
+        <option value="Antebraço">Antebraço</option>
+        <option value="Quadríceps">Quadríceps</option>
+        <option value="Posterior de Coxa">Posterior de Coxa</option>
+        <option value="Glúteos">Glúteos</option>
+        <option value="Adutores">Adutores</option>
+        <option value="Abdutores">Abdutores</option>
+        <option value="Panturrilhas">Panturrilhas</option>
+        <option value="Abdômen">Abdômen</option>
+        <option value="Lombar">Lombar</option>
+        <option value="Core">Core</option>
+        <option value="Corpo Inteiro">Corpo Inteiro</option>
+    </select>
+
+
+
+        <button type="submit">Salvar</button>
+    
+    </form>
+</div>
+
+<div class="lista">
+    <table>
+        <thead>
+          <tr>
+            <th>Exercício</th>
+            <th>Grupo Muscular</th>
+          </tr> 
+        </thead>
+        <tbody>
+            
+            {% for ex in exercicios %}
+            <tr>
+                <td>{{ ex.exercicio }}</td>
+                <td>{{ ex.grupo_muscular }}</td>
+                <td><a class="acao" href="/editar-exercicio-lista/{{ex['id']}}">Editar</a><a class="acao" href="/excluir-exercicio-lista/{{ex['id']}}">Excluir</a></td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+</div>
+
+
+<a class="acao" href="/">Voltar</a>
+{% endblock %}

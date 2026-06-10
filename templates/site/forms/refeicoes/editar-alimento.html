@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<h2>Editar Alimento</h2>
+
+<div class="form">
+
+    <form method="POST">
+    
+        <label>Nome do alimento</label><br>
+        <input type="text" name="alimento" value="{{alimento['Alimento']}}" required>
+    
+        <label>Caloria por g ou un</label>
+        <input type="number" step="0.0001" name="calorias" value="{{alimento['Calorias']}}" required>
+
+        <label>Proteína por g ou un</label>
+        <input type="number" step="0.0001" name="proteinas" value="{{alimento['Proteinas']}}" required>
+
+        <label>Fibras por g ou un</label>
+        <input type="number" step="0.0001" name="fibras" value="{{alimento['Fibras']}}" required>
+
+        <label>Gorduras por g ou un</label>
+        <input type="number" step="0.0001" name="gorduras" value="{{alimento['Gorduras']}}" required>
+
+
+        <button type="submit">Salvar</button>
+    
+    </form>
+</div>
+
+
+
+
+<a class="acao" href="/">Voltar</a>
+{% endblock %}

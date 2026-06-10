@@ -1,0 +1,64 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<h2>Registrar Refeição</h2>
+
+<div class="form">
+
+    <form method="POST">
+    
+        <label>Nome do alimento</label><br>
+        <input type="text" name="alimento" required>
+    
+        <label>Caloria por g ou un</label>
+        <input type="number" step="0.0001" name="calorias" required>
+
+        <label>Proteína por g ou un</label>
+        <input type="number" step="0.0001" name="proteinas" required>
+
+        <label>Fibras por g ou un</label>
+        <input type="number" step="0.0001" name="fibras" required>
+
+        <label>Gorduras por g ou un</label>
+        <input type="number" step="0.0001" name="gorduras" required>
+
+
+        <button type="submit">Salvar</button>
+    
+    </form>
+</div>
+
+<div class="lista">
+    <table>
+        <thead>
+          <tr>
+            <th>Alimento</th>
+            <th>Calorias</th>
+            <th>Proteínas</th>
+            <th>Fibras</th>
+            <th>Gorduras</th>
+            <th>Ações</th>
+          </tr> 
+        </thead>
+        <tbody>
+            
+            {% for ex in alimentos %}
+            <tr>
+                <td>{{ ex.alimento }}</td>
+                <td>{{ ex.calorias }}</td>
+                <td>{{ ex.proteinas }}</td>
+                <td>{{ ex.fibras }}</td>
+                <td>{{ ex.gorduras }}</td>
+                <td><a class="acao" href="/editar-alimento/{{ex['id']}}">Editar</a><a class="acao" href="/excluir-alimento/{{ex['id']}}">Excluir</a></td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+</div>
+
+
+<a class="acao" href="/">Voltar</a>
+{% endblock %}

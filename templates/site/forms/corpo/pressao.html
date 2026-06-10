@@ -1,0 +1,65 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<h2>Registrar Pressão</h2>
+
+<div class="form">
+
+    <form method="POST">
+
+        <label>Data</label>
+        <input type="text" name="data" required>
+
+        <label>Hora</label>
+        <input type="text" name="hora" required>
+    
+        <label>Sistólica</label>
+        <input type="text" name="sistolica" required>
+    
+        <label>Diastólica</label>
+        <input type="text" name="diastolica" required>
+
+        <label>Frequência Cardiaca</label>
+        <input type="text" name="frequencia_cardiaca" required>
+         
+        <label>Observações</label>
+        <textarea name="observacoes" required></textarea>
+
+        <button type="submit">Salvar</button>
+    
+    </form>
+</div>
+
+<div class="lista">
+    <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Sistólica</th>
+            <th>Diastólica</th>
+            <th>Frequencia Cardiaca</th>
+          </tr> 
+        </thead>
+        <tbody>
+            
+            {% for ex in pressoes %}
+            <tr>
+                <td>{{ ex.data.strftime("%d/%m/%Y") }}</td>
+                <td>{{ ex.hora }}</td>
+                <td>{{ ex.sistolica }}</td>
+                <td>{{ ex.diastolica }}</td>
+                <td>{{ ex.frequencia_cardiaca }}</td>
+                <td><a class="acao" href="/editar-pressao/{{ex.id}}">Editar</a><a class="acao" href="/excluir-pressao/{{ex.id}}">Excluir</a></td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+</div>
+
+
+<a class="acao" href="/">Voltar</a>
+{% endblock %}

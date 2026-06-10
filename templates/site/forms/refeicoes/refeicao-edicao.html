@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<h2>Registrar Refeição</h2>
+
+<div class="form">
+
+    <form method="POST">
+    
+    <label>Alimento:</label><br>
+            <select name="alimento" required>
+                <option value="{{refeicao.alimento}}">{{refeicao.alimento}}</option>
+        
+                {% for ex in refeicoes %}
+                    <option value="{{ ex.alimento }}">{{ ex.alimento }}</option>
+                {% endfor %}
+    
+            </select>
+    
+        <label>Quantidade (g ou unidade):</label>
+        <input type="text" name="quantidade" value="{{refeicao.quantidade}}" required>
+    
+        <button type="submit">Salvar</button>
+    
+    </form>
+
+</div>
+
+
+<a class="acao" href="/alimentacao">Voltar</a>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<h2>Registrar Cardio</h2>
+
+<div class="form">
+
+    <form method="POST">
+
+        <label>Data</label>
+        <input type="date" name="data" value="">
+
+        <label>Hora</label>
+        <input type="time" name="hora" value="">
+
+        <label>Tipo de cardio:</label>
+
+        <select name="atividade" required>
+            <option value="Caminhada">Caminhada</option>
+            <option value="Corrida">Corrida</option>
+            <option value="Bicicleta">Bicicleta</option>
+            <option value="Esteira">Esteira</option>
+            <option value="Escada">Escada</option>
+            <option value="Elíptico">Elíptico</option>
+            <option value="Natação">Natação</option>
+            <option value="Outro">Outro</option>
+        </select>
+
+        <label>Duração (minutos):</label>
+        <input type="text" name="duracao" required>
+
+        <label>Distância (km):</label>
+        <input type="text" name="distancia">
+
+        <label>Calorias queimadas:</label>
+        <input type="number" name="calorias">
+
+        <label>Frequência cardíaca média:</label>
+        <input type="number" name="frequencia_media">
+
+        <label>Frequência cardíaca máxima:</label>
+        <input type="number" name="frequencia_maxima">
+
+        <label>Observações:</label>
+        <textarea name="observacoes"></textarea>
+
+        <button type="submit">Salvar</button>
+
+    </form>
+
+</div>
+
+<div class="lista">
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Atividade</th>
+                <th>Duração</th>
+                <th>Distância</th>
+                <th>Calorias</th>
+                <th>FC Média</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for cardio in lista %}
+
+            <tr>
+                <td>{{ cardio.data.strftime("%d/%m/%Y") }}</td>
+                <td>{{ cardio.hora }}</td>
+                <td>{{ cardio.atividade }}</td>
+                <td>{{ cardio.duracao }} min</td>
+                <td>{{ cardio.distancia }} km</td>
+                <td>{{ cardio.calorias }}</td>
+                <td>{{ cardio.frequencia_media }}</td>
+                <td>
+                    <a class="acao" href="/editar-cardio/{{ cardio.id }}">Editar</a>
+                    <a class="acao" href="/excluir-cardio/{{ cardio.id }}">Excluir</a>
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+
+</div>
+
+<a class="acao" href="/">Voltar</a>
+
+{% endblock %}

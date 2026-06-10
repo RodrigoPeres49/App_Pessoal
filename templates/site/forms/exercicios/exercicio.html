@@ -1,0 +1,83 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<div class="form">
+    <h2>Registrar Exercício</h2>
+    <form method="POST">
+    
+        <label>Exercício:</label>
+        <select name="exercicio" required>
+            <option value="">Selecione um exercício</option>
+
+            {% for ex in exercicios %}
+                <option value="{{ ex.exercicio }}">{{ ex.exercicio }}</option>
+            {% endfor %}
+    
+        </select>
+    
+        <label>Série</label>
+        <select name="serie" id="series" required>
+            <option value="1º">1º</option>
+            <option value="1º complementar">1º complementar</option>
+            <option value="2º">2º</option>
+            <option value="1º complementar">2º complementar</option>
+            <option value="3º">3º</option>
+            <option value="3º complementar">3º complementar</option>
+            <option value="4º">4º</option>
+            <option value="4º complementar">4º complementar</option>
+            <option value="5º">5º</option>
+            <option value="5º complementar">5º complementar</option>
+        </select>
+
+        <label>Repetições:</label>
+        <input type="number" name="repeticoes" required>
+    
+        <label>KG ou Tempo:</label>
+        <input type="text" name="kg_tempo" required>
+    
+        <button type="submit">Salvar</button>
+    
+    </form>
+
+</div>
+
+<h2>Exercícios Adicionados</h2>
+
+<div class="lista">
+    <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Exercício</th>
+            <th>Serie</th>
+            <th>Repetições</th>
+            <th>KG ou Tempo</th>
+            <th>Ações</th>
+          </tr> 
+        </thead>
+        <tbody>
+            
+            {% for ex in lista %}
+            <tr>
+                <td>{{ ex.data.strftime("%d/%m/%Y") }}</td>
+                <td>{{ ex.hora }}</td>
+                <td>{{ ex.exercicio }}</td>
+                <td>{{ ex.serie }}</td>
+                <td>{{ ex.repeticoes }}</td>
+                <td>{{ ex.kg_tempo }}</td>
+                <td><a class="acao" href="/editar-exercicio/{{ex.id}}">Editar</a><a class="acao" href="/excluir-exercicio/{{ex.id}}">Excluir</a></td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+</div>
+
+<a class="acao" href="/novo-exercicio">Adicionar a lista de Exercícios</a>
+
+
+<a class="acao" href="/">Voltar</a>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<h2>Registrar Pressão</h2>
+
+<div class="form">
+
+    <form method="POST">
+
+        <label>Data</label>
+        <input type="text" name="data" value="{{pressao.data}}" required>
+
+        <label>Hora</label>
+        <input type="text" name="hora" value="{{pressao.hora}}" required>
+    
+        <label>Sistólica</label>
+        <input type="text" name="sistolica" value="{{pressao.sistolica}}" required>
+    
+        <label>Diastólica</label>
+        <input type="text" name="diastolica" value="{{pressao.diastolica}}" required>
+
+        <label>Frequência Cardiaca</label>
+        <input type="text" name="frequencia_cardiaca" value="{{pressao.frequencia_cardiaca}}" required>
+         
+        <label>Observações</label>
+        <textarea name="observacoes" required>{{pressao.observacoes}}</textarea>
+
+        <button type="submit">Atualizar</button>
+    
+    </form>
+</div>
+
+{% endblock %}

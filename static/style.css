@@ -1,0 +1,177 @@
+body{
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CABEÇALHO e RODAPÉ */
+
+.header-footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.header-footer p{
+    text-align: center;
+    font-size: xx-small;
+}
+
+/* BOTÕES TELA PRINCIPAL */
+
+.comandos{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.comandos a{
+    text-decoration: none;
+    background-color: gray;
+    color: black;
+    text-align: center;
+    margin-block: 0.5em;
+    padding: 0.4em;
+}
+
+/* FORMULÁRIOS */
+
+.form{
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5em;
+    border-radius: 2em;
+}
+
+.form form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form form label, input, select{
+    display: flex;
+    justify-self: center;
+    margin-block: 0.2em;
+    text-align: center;
+}
+
+.form form select[id="series"]{
+    width: 10em;
+    text-align: center;
+}
+
+.form button{
+    width: fit-content;
+    margin: 0.5rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 1em;
+    border: none;
+    outline: none;
+    
+}
+
+.form button:hover{
+    background-color: black;
+    color: white;
+}
+
+/* TABELAS */
+
+.lista{
+    background-color: white;
+    color: black;
+    margin: 0.5em;
+    font-size: smaller;
+    padding-block: 1em;
+}
+
+.lista th, td{
+    padding-inline: 0.5em;
+    text-align: center;
+    font-size: smaller;
+}
+
+.lista td{
+    font-size: 0.7em;
+}
+
+.lista td a{
+    margin-inline: 0.4em;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    border-radius: 1em;
+    padding: 0.25em;
+    font-size: smaller;
+}
+
+.lista td a:hover{
+    background-color: red;
+}
+
+/* BOTÃO PARA RETONAR A TELA ANTERIOR */
+
+.acao{
+    font-weight: bold;
+    background-color: gray;
+    color: black;
+    padding: 0.4em;
+    cursor: pointer;
+    border-radius: 1em;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    margin: 0.5em;
+}
+
+/* DADOS USUARIO */
+
+.dados-usuario{
+    background-color: gray;
+    color: black;
+    padding: 1em;
+    border-radius: 3em;
+}
+
+.dados-usuario ul{
+    list-style-type: none;
+}
+
+.dados-usuario li{
+    font-size: smaller;
+}
+
+.dados-usuario h3{
+    text-align: center;
+}
+
+.dados-usuario table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1em;
+}
+
+.dados-usuario th,
+.dados-usuario td {
+    border: 0.1em solid black;
+    text-align: center;
+    padding: 0.3em;
+}
+
+.dados-usuario th[colspan="2"]{
+    background-color: black;
+    color: white;
+}
