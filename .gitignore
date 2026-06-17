@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Banco de dados
+instance/
+*.db
+
+# Android / Capacitor
+mobile/node_modules/
+mobile/android/.gradle/
+mobile/android/build/
+mobile/android/app/build/
+
+# Logs
+*.log
+
+# VS Code
+.vscode/
+
+# Arquivos temporários
+.DS_Store
