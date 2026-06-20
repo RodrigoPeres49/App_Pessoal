@@ -10,11 +10,12 @@ from database import db
 from models import Alimento, ListaExercicio, Refeicao, Cardio, Exercicio, Usuario
 import pandas as pd
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(32)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
