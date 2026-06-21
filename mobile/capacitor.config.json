@@ -1,9 +1,0 @@
-{
-  "appId": "com.rodrigo.apppessoal",
-  "appName": "AppPessoal",
-  "webDir": "www",
-  "server": {
-    "url": "http://127.0.0.1:5000",
-    "cleartext": true
-  }
-}

@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">App Pessoal</string>
-    <string name="title_activity_main">App Pessoal</string>
-    <string name="package_name">com.rodrigo.apppessoal</string>
-    <string name="custom_url_scheme">com.rodrigo.apppessoal</string>
-</resources>
