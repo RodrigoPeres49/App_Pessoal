@@ -7,12 +7,12 @@
     <div class="dados-usuario">
         <h3>Dados do Usuário</h3>
         <ul>
-            <li>Sexo: {{usuario.sexo}}</li>
-            <li>Altura: {{ usuario.altura|round(2) }} m</li>
-            <li>Data de Nascimento: {{usuario.data_nasc.strftime("%d/%m/%Y")}}</li>
-            <li>Peso: {{usuario.peso}} - Meta: {{usuario.meta_peso}}</li>
-            <li>Massa Magra: {{usuario.massa_magra}} - Meta: {{usuario.meta_massa_magra}}</li>
-            <li>Massa Gorda: {{usuario.massa_gorda}} - Meta: {{usuario.meta_massa_gorda}}</li>
+            <li>Sexo: {{ usuario.sexo if usuario.sexo else "Não informado" }}</li>
+            <li>Altura: {{ usuario.altura|round(2) if usuario.altura else "Não informado" }}</li>
+            <li>Data de Nascimento: {{ usuario.data_nasc.strftime("%d/%m/%Y") if usuario.data_nasc else "Não informado" }}</li>
+            <li>Peso: {{ usuario.peso if usuario.peso else "Não informado" }} - Meta: {{ usuario.meta_peso if usuario.meta_peso else "Não informado" }}</li>
+            <li>Massa Magra: {{ usuario.massa_magra if usuario.massa_magra else "Não informado" }} - Meta: {{ usuario.meta_massa_magra if usuario.meta_massa_magra else "Não informado" }}</li>
+            <li>Massa Gorda: {{ usuario.massa_gorda if usuario.massa_gorda else "Não informado" }} - Meta: {{ usuario.meta_massa_gorda if usuario.meta_massa_gorda else "Não informado" }}</li>
         </ul>
 
         <h3>Consumo Diário</h3>

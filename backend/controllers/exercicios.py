@@ -22,6 +22,10 @@ def add_exercicio():
         serie = str(request.form["serie"])
         repeticoes = int(request.form["repeticoes"])
         kg_tempo = float(request.form["kg_tempo"].replace(",", "."))
+        
+        if usuario.peso is None:
+            return render_template("mensagem.html",mensagem="Cadastre seu peso antes de registrar exercícios.",link="/corpo")
+
         calorias = round(repeticoes * kg_tempo * exercicio_info.fator_calorias * usuario.peso/1000,2)
         agora = datetime.now()
         data = agora
@@ -74,9 +78,17 @@ def editar_exercicio(id):
         exercicio.exercicio = request.form["exercicio"]
         exercicio_info = ListaExercicio.query.filter_by(exercicio=exercicio.exercicio).first()
         exercicio.grupo_muscular = exercicio_info.grupo_muscular
+    
+        if not exercicio_info:
+            return render_template("mensagem.html",mensagem="Exercício não encontrado na base de dados.",link="/exercicio")
+    
         exercicio.serie = str(request.form["serie"])
         exercicio.repeticoes = int(request.form["repeticoes"])
         exercicio.kg_tempo = float(request.form["kg_tempo"].replace(",", "."))
+        
+        if usuario.peso is None:
+            return render_template("mensagem.html",mensagem="Cadastre seu peso antes de registrar exercícios.",link="/corpo")        
+
         exercicio.calorias = round(exercicio.repeticoes * exercicio.kg_tempo * exercicio_info.fator_calorias * usuario.peso/1000,2)
 
         db.session.commit()

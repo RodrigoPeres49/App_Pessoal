@@ -11,6 +11,7 @@ from models import Alimento, ListaExercicio, Refeicao, Cardio, Exercicio, Usuari
 import pandas as pd
 from datetime import datetime
 import os
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(32)
@@ -20,6 +21,9 @@ uri = os.environ.get("DATABASE_URL")
 
 if uri and uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
+    
+if not uri:
+    uri = "sqlite:///database.db"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = uri
 
@@ -27,7 +31,7 @@ db.init_app(app)
 
 with app.app_context():
 
-    db.create_all()
+    migrate = Migrate(app, db)
 
     # IMPORTAR ALIMENTOS
 
