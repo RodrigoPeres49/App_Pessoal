@@ -45,11 +45,20 @@
         <label>Observações:</label>
         <textarea name="observacoes"></textarea>
 
-        <button type="submit">Salvar</button>
+        <button type="submit" name="salvar">Salvar</button>
 
     </form>
 
 </div>
+
+<form method="POST">
+    <label>Data início</label>
+    <input type="date" name="data_inicio">
+    <label>Data final</label>
+    <input type="date" name="data_final">
+    <button name="filtrar" type="submit">Filtrar</button>
+</form>
+
 
 <div class="lista">
 

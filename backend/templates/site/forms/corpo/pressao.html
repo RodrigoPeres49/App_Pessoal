@@ -26,10 +26,19 @@
         <label>Observações</label>
         <textarea name="observacoes" required></textarea>
 
-        <button type="submit">Salvar</button>
+        <button name="salvar" type="submit">Salvar</button>
     
     </form>
 </div>
+
+<form method="POST">
+    <label>Data início</label>
+    <input type="date" name="data_inicio">
+    <label>Data final</label>
+    <input type="date" name="data_final">
+    <button name="filtrar" type="submit">Filtrar</button>
+</form>
+
 
 <div class="lista">
     <table>

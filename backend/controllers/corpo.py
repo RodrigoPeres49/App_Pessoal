@@ -520,31 +520,53 @@ def excluir_avaliacao(id):
 
 @bp_corpo.route("/pressao", methods=["GET", "POST"])
 def registrar_pressao():
+    
+    data_pressao_inicio = None
+    data_pressao_final = None
+    data_inicio = None
+    data_final = None
 
     if request.method == "POST":
+        
+        acao = request.form.get["acao"]
+        
+        if acao == "salvar":
 
-        nova_pressao = Pressao(
-            usuario_id=session["usuario_id"],
-            data = request.form["data"],
-            hora = request.form["hora"],
-            sistolica=int(request.form["sistolica"]),
-            diastolica=int(request.form["diastolica"]),
-            frequencia_cardiaca=int(request.form["frequencia_cardiaca"]),
-            observacoes=request.form["observacoes"]
-        )
+            nova_pressao = Pressao(
+                usuario_id=session["usuario_id"],
+                data = request.form["data"],
+                hora = request.form["hora"],
+                sistolica=int(request.form["sistolica"]),
+                diastolica=int(request.form["diastolica"]),
+                frequencia_cardiaca=int(request.form["frequencia_cardiaca"]),
+                observacoes=request.form["observacoes"]
+            )
+    
+            db.session.add(nova_pressao)
+            db.session.commit()
+    
+            return render_template(
+                "mensagem.html",
+                mensagem="Pressão registrada com sucesso!",
+                link="/pressao"
+            )
 
-        db.session.add(nova_pressao)
-        db.session.commit()
+    query = Pressao.query.filter_by(usuario_id=session["usuario_id"])
 
-        return render_template(
-            "mensagem.html",
-            mensagem="Pressão registrada com sucesso!",
-            link="/pressao"
-        )
+    if data_pressao_inicio == None and data_pressao_final == None:
+        query = query.filter(Pressao.data == date.today())
+    
+    elif data_pressao_inicio and not data_pressao_final:
+        query = query.filter(Pressao.data >= data_pressao_inicio)
+        
+    elif data_pressao_final and not data_pressao_inicio:
+        query = query.filter(Pressao.data <= data_pressao_final)
+        
+    else:
+        query = query.filter(Pressao.data.between(data_pressao_inicio,data_pressao_final))
+        
+    pressoes = query.order_by(Pressao.data.desc(),Pressao.id.desc()).all()
 
-    pressoes = Pressao.query.order_by(
-        Pressao.id.desc()
-    ).all()
 
     return render_template(
         "site/forms/corpo/pressao.html",

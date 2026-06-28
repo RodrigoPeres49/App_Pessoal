@@ -1,5 +1,5 @@
-from flask import request, render_template, Blueprint, session
-from datetime import datetime
+from flask import request, render_template, Blueprint, session, redirect
+from datetime import datetime, date
 from models import Exercicio, ListaExercicio, Usuario
 from database import db
 
@@ -10,44 +10,78 @@ bp_exercicios = Blueprint("exercicios", __name__)
 
 @bp_exercicios.route("/exercicio", methods=["GET", "POST"])
 def add_exercicio():
-
+    
+    data_exercicios_inicio = None
+    data_exercicios_final = None
+    data_inicio = None
+    data_final = None
+    
     lista_exercicios = ListaExercicio.query.all()
     usuario = Usuario.query.get(session["usuario_id"])
 
     if request.method == "POST":
-
-        exercicio = request.form["exercicio"]
-        exercicio_info = ListaExercicio.query.filter_by(exercicio=exercicio).first()
-        grupo_muscular = exercicio_info.grupo_muscular
-        serie = str(request.form["serie"])
-        repeticoes = int(request.form["repeticoes"])
-        kg_tempo = float(request.form["kg_tempo"].replace(",", "."))
         
-        if usuario.peso is None:
-            return render_template("mensagem.html",mensagem="Cadastre seu peso antes de registrar exercícios.",link="/corpo")
-
-        calorias = round(repeticoes * kg_tempo * exercicio_info.fator_calorias * usuario.peso/1000,2)
-        agora = datetime.now()
-        data = agora
-        hora = agora.strftime("%H:%M:%S")
+        acao = request.form.get["acao"]
         
-        novo_exercicio = Exercicio(
-            usuario_id=session["usuario_id"],
-            data=data,
-            hora=hora,
-            exercicio=exercicio,
-            grupo_muscular = grupo_muscular,
-            calorias = calorias,
-            serie=serie,
-            repeticoes=repeticoes,
-            kg_tempo=kg_tempo
-        )
+        if acao == "salvar":
 
-        db.session.add(novo_exercicio)
+            exercicio = request.form["exercicio"]
+            exercicio_info = ListaExercicio.query.filter_by(exercicio=exercicio).first()
+            grupo_muscular = exercicio_info.grupo_muscular
+            serie = str(request.form["serie"])
+            repeticoes = int(request.form["repeticoes"])
+            kg_tempo = float(request.form["kg_tempo"].replace(",", "."))
+            
+            if usuario.peso is None:
+                return render_template("mensagem.html",mensagem="Cadastre seu peso antes de registrar exercícios.",link="/corpo")
+    
+            calorias = round(repeticoes * kg_tempo * exercicio_info.fator_calorias * usuario.peso/1000,2)
+            agora = datetime.now()
+            data = agora
+            hora = agora.strftime("%H:%M:%S")
+            
+            novo_exercicio = Exercicio(
+                usuario_id=session["usuario_id"],
+                data=data,
+                hora=hora,
+                exercicio=exercicio,
+                grupo_muscular = grupo_muscular,
+                calorias = calorias,
+                serie=serie,
+                repeticoes=repeticoes,
+                kg_tempo=kg_tempo
+            )
+    
+            db.session.add(novo_exercicio)
+    
+            db.session.commit()
+            return redirect("/exercicio")
+            
+        elif acao == "filtrar":
+            data_inicio = request.form.get["data_inicio"]
+            data_final = request.form.get["data_final"]
+            
+        if data_inicio:
+            data_exercicios_inicio = datetime.strptime(data_inicio,"%Y-%m-%d").date()
 
-        db.session.commit()
+        if data_final:
+            data_exercicios_final = datetime.strptime(data_final,"%Y-%m-%d").date()
+            
+    query = Exercicio.query.filter_by(usuario_id=session["usuario_id"])
 
-    lista = Exercicio.query.filter_by(usuario_id=session["usuario_id"]).order_by(Exercicio.id.desc()).all()
+    if data_exercicios_inicio == None and data_exercicios_final == None:
+        query = query.filter(Exercicio.data == date.today())
+    
+    elif data_exercicios_inicio and not data_exercicios_final:
+        query = query.filter(Exercicio.data >= data_exercicios_inicio)
+        
+    elif data_exercicios_final and not data_exercicios_inicio:
+        query = query.filter(Exercicio.data <= data_exercicios_final)
+        
+    else:
+        query = query.filter(Exercicio.data.between(data_exercicios_inicio,data_exercicios_final))
+        
+    lista = query.order_by(Exercicio.data.desc(),Exercicio.id.desc()).all()
 
     return render_template(
         "site/forms/exercicios/exercicio.html",

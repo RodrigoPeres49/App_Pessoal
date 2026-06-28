@@ -1,5 +1,5 @@
 from flask import request, render_template, Blueprint, session
-from datetime import datetime
+from datetime import datetime, date
 from models import db, Refeicao, Alimento
 
 bp_refeicoes = Blueprint("refeicoes", __name__)
@@ -8,53 +8,87 @@ bp_refeicoes = Blueprint("refeicoes", __name__)
 
 @bp_refeicoes.route("/alimentacao", methods=["GET", "POST"])
 def add_refeicao():
+    
+    data_refeicoes_inicio = None
+    data_refeicoes_final = None
+    data_inicio = None
+    data_final = None
 
     alimentos = Alimento.query.all()
 
     if request.method == "POST":
+        
+        acao = request.form.get["acao"]
+        
+        if acao == salvar:
 
-        alimento_nome = request.form["alimento"]
-        quantidade = float(request.form["quantidade"].replace(",", "."))
+            alimento_nome = request.form["alimento"]
+            quantidade = float(request.form["quantidade"].replace(",", "."))
+    
+            alimento = Alimento.query.filter_by(
+                alimento=alimento_nome
+            ).first()
+    
+            if alimento:
+    
+                calorias = round(alimento.calorias * quantidade, 2)
+                proteinas = round(alimento.proteinas * quantidade, 2)
+                fibras = round(alimento.fibras * quantidade, 2)
+                carboidratos = round(alimento.carboidratos * quantidade, 2)
+                gorduras = round(alimento.gorduras * quantidade, 2)
+    
+            else:
+    
+                calorias = 0
+                proteinas = 0
+                fibras = 0
+                carboidratos = 0
+                gorduras = 0
+    
+            agora = datetime.now()
+    
+            nova_refeicao = Refeicao(
+                usuario_id=session["usuario_id"],
+                data=agora,
+                hora=agora.strftime("%H:%M:%S"),
+                alimento=alimento_nome,
+                calorias=calorias,
+                proteinas=proteinas,
+                carboidratos = carboidratos,
+                quantidade=quantidade,
+                fibras=fibras,
+                gorduras=gorduras
+            )
+    
+            db.session.add(nova_refeicao)
+            db.session.commit()
 
-        alimento = Alimento.query.filter_by(
-            alimento=alimento_nome
-        ).first()
+        elif acao == "filtrar":
+            data_inicio = request.form.get["data_inicio"]
+            data_final = request.form.get["data_final"]
+            
+            if data_inicio:
+                data_refeicoes_inicio = datetime.strptime(data_inicio,"%Y-%m-%d").date()
+    
+            if data_final:
+                data_refeicoes_final = datetime.strptime(data_final,"%Y-%m-%d").date()
+    
 
-        if alimento:
+    query = Refeicao.query.filter_by(usuario_id=session["usuario_id"])
 
-            calorias = round(alimento.calorias * quantidade, 2)
-            proteinas = round(alimento.proteinas * quantidade, 2)
-            fibras = round(alimento.fibras * quantidade, 2)
-            carboidratos = round(alimento.carboidratos * quantidade, 2)
-            gorduras = round(alimento.gorduras * quantidade, 2)
+    if data_refeicoes_inicio == None and data_refeicoes_final == None:
+        query = query.filter(Refeicao.data == date.today())
+    
+    elif data_refeicoes_inicio and not data_refeicoes_final:
+        query = query.filter(Refeicao.data >= data_refeicoes_inicio)
+        
+    elif data_refeicoes_final and not data_refeicoes_inicio:
+        query = query.filter(Refeicao.data <= data_refeicoes_final)
+        
+    else:
+        query = query.filter(Refeicao.data.between(data_refeicoes_inicio,data_refeicoes_final))
 
-        else:
-
-            calorias = 0
-            proteinas = 0
-            fibras = 0
-            carboidratos = 0
-            gorduras = 0
-
-        agora = datetime.now()
-
-        nova_refeicao = Refeicao(
-            usuario_id=session["usuario_id"],
-            data=agora,
-            hora=agora.strftime("%H:%M:%S"),
-            alimento=alimento_nome,
-            calorias=calorias,
-            proteinas=proteinas,
-            carboidratos = carboidratos,
-            quantidade=quantidade,
-            fibras=fibras,
-            gorduras=gorduras
-        )
-
-        db.session.add(nova_refeicao)
-        db.session.commit()
-
-    lista = Refeicao.query.filter_by(usuario_id=session["usuario_id"]).order_by(Refeicao.data.desc(),Refeicao.hora.desc()).all()
+    lista = query.order_by(Refeicao.data.desc(),Refeicao.hora.desc()).all()
 
     return render_template(
         "site/forms/refeicoes/refeicao.html",
