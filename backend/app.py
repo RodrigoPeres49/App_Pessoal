@@ -154,7 +154,7 @@ def index():
         hoje = hoje
     )
 @app.route("/inativo")
-def index():
+def inativo():
     return render_template("mensagem.html", mensagem="Modo inativo no momento", link = "/")
 
 app.register_blueprint(bp_exercicios)
