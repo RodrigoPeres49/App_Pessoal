@@ -137,90 +137,90 @@ def excluir_exercicio(id):
 
 # ADICIONAR NOVO EXERCICIO
 
-@bp_exercicios.route("/novo-exercicio", methods=["GET", "POST"])
-def add_exercicio_lista():
+# @bp_exercicios.route("/novo-exercicio", methods=["GET", "POST"])
+# def add_exercicio_lista():
 
-    if request.method == "POST":
+#     if request.method == "POST":
 
-        exercicio = request.form["exercicio"]
+#         exercicio = request.form["exercicio"]
 
-        grupo_muscular = request.form["grupo_muscular"]
+#         grupo_muscular = request.form["grupo_muscular"]
 
-        novo_exercicio = ListaExercicio(
-            exercicio=exercicio,
-            grupo_muscular=grupo_muscular
-        )
+#         novo_exercicio = ListaExercicio(
+#             exercicio=exercicio,
+#             grupo_muscular=grupo_muscular
+#         )
 
-        db.session.add(novo_exercicio)
+#         db.session.add(novo_exercicio)
 
-        db.session.commit()
+#         db.session.commit()
 
-    exercicios = ListaExercicio.query.order_by(
-        ListaExercicio.exercicio.asc()
-    ).all()
+#     exercicios = ListaExercicio.query.order_by(
+#         ListaExercicio.exercicio.asc()
+#     ).all()
 
-    return render_template(
-        "/site/forms/exercicios/add-exercicio.html",
-        exercicios=exercicios
-    )
+#     return render_template(
+#         "/site/forms/exercicios/add-exercicio.html",
+#         exercicios=exercicios
+#     )
 
 
 # EDITAR EXERCICIO DA LISTA
 
-@bp_exercicios.route(
-    "/editar-exercicio-lista/<int:id>",
-    methods=["GET", "POST"]
-)
-def editar_exercicio_lista(id):
+# @bp_exercicios.route(
+#     "/editar-exercicio-lista/<int:id>",
+#     methods=["GET", "POST"]
+# )
+# def editar_exercicio_lista(id):
 
-    item = ListaExercicio.query.get(id)
+#     item = ListaExercicio.query.get(id)
 
-    if not item:
-        return render_template(
-            "mensagem.html",
-            mensagem="Exercício não encontrado!",
-            link="/novo-exercicio"
-        )
+#     if not item:
+#         return render_template(
+#             "mensagem.html",
+#             mensagem="Exercício não encontrado!",
+#             link="/novo-exercicio"
+#         )
 
-    if request.method == "POST":
+#     if request.method == "POST":
 
-        item.exercicio = request.form["exercicio"]
-        item.grupo_muscular = int(request.form["grupo_muscular"])
+#         item.exercicio = request.form["exercicio"]
+#         item.grupo_muscular = int(request.form["grupo_muscular"])
 
-        db.session.commit()
+#         db.session.commit()
 
-        return render_template(
-            "mensagem.html",
-            mensagem="Exercício atualizado com sucesso!",
-            link="/novo-exercicio"
-        )
+#         return render_template(
+#             "mensagem.html",
+#             mensagem="Exercício atualizado com sucesso!",
+#             link="/novo-exercicio"
+#         )
 
-    return render_template(
-        "site/forms/exercicios/editar-exercicio.html",
-        exercicio=item
-    )
+#     return render_template(
+#         "site/forms/exercicios/editar-exercicio.html",
+#         exercicio=item
+#     )
 
 
-# EXCLUIR EXERCICIO DA LISTA
+# # EXCLUIR EXERCICIO DA LISTA
 
-@bp_exercicios.route("/excluir-exercicio-lista/<int:id>")
-def excluir_exercicio_lista(id):
+# @bp_exercicios.route("/excluir-exercicio-lista/<int:id>")
+# def excluir_exercicio_lista(id):
 
-    item = ListaExercicio.query.filter_by(id=id, usuario_id=session["usuario_id"]).first()
+#     item = ListaExercicio.query.filter_by(id=id, usuario_id=session["usuario_id"]).first()
 
-    if not item:
-        return render_template(
-            "mensagem.html",
-            mensagem="Exercício não encontrado.",
-            link="/novo-exercicio"
-        )
+#     if not item:
+#         return render_template(
+#             "mensagem.html",
+#             mensagem="Exercício não encontrado.",
+#             link="/novo-exercicio"
+#         )
 
-    db.session.delete(item)
+#     db.session.delete(item)
 
-    db.session.commit()
+#     db.session.commit()
 
-    return render_template(
-        "mensagem.html",
-        mensagem="Exercício Excluído com Sucesso.",
-        link="/novo-exercicio"
-    )
+#     return render_template(
+#         "mensagem.html",
+#         mensagem="Exercício Excluído com Sucesso.",
+#         link="/novo-exercicio"
+#     )

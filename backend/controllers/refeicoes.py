@@ -153,97 +153,97 @@ def excluir_refeicao(id):
 
 # ADICIONAR ALIMENTO
 
-@bp_refeicoes.route("/novo-alimento", methods=["GET", "POST"])
-def add_alimento():
+# @bp_refeicoes.route("/novo-alimento", methods=["GET", "POST"])
+# def add_alimento():
 
-    if request.method == "POST":
+#     if request.method == "POST":
 
-        alimento = request.form["alimento"]
-        calorias = float(request.form["calorias"].replace(",", "."))
-        proteinas = float(request.form["proteinas"].replace(",", "."))
-        carboidratos = float(request.form["carboidratos"].replace(",", "."))
-        fibras = float(request.form["fibras"].replace(",", "."))
-        gorduras = float(request.form["gorduras"].replace(",", "."))
+#         alimento = request.form["alimento"]
+#         calorias = float(request.form["calorias"].replace(",", "."))
+#         proteinas = float(request.form["proteinas"].replace(",", "."))
+#         carboidratos = float(request.form["carboidratos"].replace(",", "."))
+#         fibras = float(request.form["fibras"].replace(",", "."))
+#         gorduras = float(request.form["gorduras"].replace(",", "."))
 
-        novo_alimento = Alimento(
-            alimento=alimento,
-            calorias=calorias,
-            proteinas=proteinas,
-            carboidratos = carboidratos,
-            fibras=fibras,
-            gorduras=gorduras
-        )
+#         novo_alimento = Alimento(
+#             alimento=alimento,
+#             calorias=calorias,
+#             proteinas=proteinas,
+#             carboidratos = carboidratos,
+#             fibras=fibras,
+#             gorduras=gorduras
+#         )
 
-        db.session.add(novo_alimento)
-        db.session.commit()
+#         db.session.add(novo_alimento)
+#         db.session.commit()
 
-    alimentos = Alimento.query.all()
+#     alimentos = Alimento.query.all()
 
-    return render_template(
-        "site/forms/refeicoes/add-alimento.html",
-        alimentos=alimentos
-    )
+#     return render_template(
+#         "site/forms/refeicoes/add-alimento.html",
+#         alimentos=alimentos
+#     )
 
 
 # EDITAR ALIMENTO
 
-@bp_refeicoes.route("/editar-alimento/<int:id>", methods=["GET", "POST"])
-def editar_alimento(id):
+# @bp_refeicoes.route("/editar-alimento/<int:id>", methods=["GET", "POST"])
+# def editar_alimento(id):
 
-    alimento = Alimento.query.get(id)
+#     alimento = Alimento.query.get(id)
 
-    if not alimento:
+#     if not alimento:
 
-        return render_template(
-            "mensagem.html",
-            mensagem="Alimento não encontrado!",
-            link="/novo-alimento"
-        )
+#         return render_template(
+#             "mensagem.html",
+#             mensagem="Alimento não encontrado!",
+#             link="/novo-alimento"
+#         )
 
-    if request.method == "POST":
+#     if request.method == "POST":
 
-        alimento.alimento = request.form["alimento"]
-        alimento.calorias = float(request.form["calorias"].replace(",", "."))
-        alimento.proteinas = float(request.form["proteinas"].replace(",", "."))
-        alimento.carboidratos = float(request.form["carboidratos"].replace(",","."))
-        alimento.fibras = float(request.form["fibras"].replace(",", "."))
-        alimento.gorduras = float(request.form["gorduras"].replace(",", "."))
+#         alimento.alimento = request.form["alimento"]
+#         alimento.calorias = float(request.form["calorias"].replace(",", "."))
+#         alimento.proteinas = float(request.form["proteinas"].replace(",", "."))
+#         alimento.carboidratos = float(request.form["carboidratos"].replace(",","."))
+#         alimento.fibras = float(request.form["fibras"].replace(",", "."))
+#         alimento.gorduras = float(request.form["gorduras"].replace(",", "."))
 
-        db.session.commit()
+#         db.session.commit()
 
-        return render_template(
-            "mensagem.html",
-            mensagem="Alimento atualizado com sucesso!",
-            link="/novo-alimento"
-        )
+#         return render_template(
+#             "mensagem.html",
+#             mensagem="Alimento atualizado com sucesso!",
+#             link="/novo-alimento"
+#         )
 
-    return render_template(
-        "site/forms/refeicoes/editar-alimento.html",
-        alimento=alimento
-    )
+#     return render_template(
+#         "site/forms/refeicoes/editar-alimento.html",
+#         alimento=alimento
+#     )
 
 
-# EXCLUIR ALIMENTO
+# # EXCLUIR ALIMENTO
 
-@bp_refeicoes.route("/excluir-alimento/<int:id>")
-def excluir_alimento(id):
+# @bp_refeicoes.route("/excluir-alimento/<int:id>")
+# def excluir_alimento(id):
 
-    alimento = Alimento.query.get(id)
+#     alimento = Alimento.query.get(id)
 
-    if not alimento:
+#     if not alimento:
 
-        return render_template(
-            "mensagem.html",
-            mensagem="Alimento não encontrado.",
-            link="/novo-alimento"
-        )
+#         return render_template(
+#             "mensagem.html",
+#             mensagem="Alimento não encontrado.",
+#             link="/novo-alimento"
+#         )
 
-    db.session.delete(alimento)
-    db.session.commit()
+#     db.session.delete(alimento)
+#     db.session.commit()
 
-    return render_template(
-        "mensagem.html",
-        mensagem="Alimento excluído com sucesso.",
-        link="/novo-alimento"
-    )
+#     return render_template(
+#         "mensagem.html",
+#         mensagem="Alimento excluído com sucesso.",
+#         link="/novo-alimento"
+#     )
     

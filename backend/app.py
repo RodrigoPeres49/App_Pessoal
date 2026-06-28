@@ -82,7 +82,6 @@ with app.app_context():
 
 @app.route("/")
 def index():
-    print(session)
 
     if "usuario_id" not in session: 
         return redirect("/login")
@@ -154,6 +153,9 @@ def index():
         calorias_cardio = calorias_cardio,
         hoje = hoje
     )
+@app.route("/inativo")
+def index():
+    return render_template("mensagem.html", mensagem="Modo inativo no momento", link = "/")
 
 app.register_blueprint(bp_exercicios)
 app.register_blueprint(bp_refeicoes)

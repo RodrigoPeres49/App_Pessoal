@@ -6,52 +6,52 @@ bp_auth = Blueprint("auth", __name__)
 
 # CADASTRO
 
-@bp_auth.route("/cadastro", methods=["GET", "POST"])
-def cadastro():
+# @bp_auth.route("/cadastro", methods=["GET", "POST"])
+# def cadastro():
 
-    if request.method == "POST":
+#     if request.method == "POST":
 
-        nome = request.form["nome"]
-        email = request.form["email"]
-        data_nasc = date.fromisoformat(request.form["data_nasc"])
-        idade = Usuario.definir_idade(data_nasc)
-        sexo = request.form["sexo"]
-        senha = request.form["senha"]
+#         nome = request.form["nome"]
+#         email = request.form["email"]
+#         data_nasc = date.fromisoformat(request.form["data_nasc"])
+#         idade = Usuario.definir_idade(data_nasc)
+#         sexo = request.form["sexo"]
+#         senha = request.form["senha"]
 
-        usuario_existente = Usuario.query.filter_by(
-            email=email
-        ).first()
+#         usuario_existente = Usuario.query.filter_by(
+#             email=email
+#         ).first()
 
-        if usuario_existente:
+#         if usuario_existente:
 
-            return render_template(
-                "mensagem.html",
-                mensagem="Email já cadastrado.",
-                link="/cadastro"
-            )
+#             return render_template(
+#                 "mensagem.html",
+#                 mensagem="Email já cadastrado.",
+#                 link="/cadastro"
+#             )
 
-        usuario = Usuario(
-            nome=nome,
-            email=email,
-            data_nasc = data_nasc,
-            idade = idade,
-            sexo = sexo
-        )
+#         usuario = Usuario(
+#             nome=nome,
+#             email=email,
+#             data_nasc = data_nasc,
+#             idade = idade,
+#             sexo = sexo
+#         )
 
-        usuario.set_senha(senha)
+#         usuario.set_senha(senha)
 
-        db.session.add(usuario)
-        db.session.commit()
+#         db.session.add(usuario)
+#         db.session.commit()
 
-        return render_template(
-            "mensagem.html",
-            mensagem="Cadastro realizado com sucesso!",
-            link="/login"
-        )
+#         return render_template(
+#             "mensagem.html",
+#             mensagem="Cadastro realizado com sucesso!",
+#             link="/login"
+#         )
 
-    return render_template(
-        "login/cadastro.html"
-    )
+#     return render_template(
+#         "login/cadastro.html"
+#     )
     
 # LOGIN
 
