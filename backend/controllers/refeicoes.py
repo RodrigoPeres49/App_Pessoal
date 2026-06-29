@@ -18,9 +18,9 @@ def add_refeicao():
 
     if request.method == "POST":
         
-        acao = request.form.get["acao"]
+        acao = request.form.get("acao")
         
-        if acao == salvar:
+        if acao == "salvar":
 
             alimento_nome = request.form["alimento"]
             quantidade = float(request.form["quantidade"].replace(",", "."))
@@ -64,8 +64,8 @@ def add_refeicao():
             db.session.commit()
 
         elif acao == "filtrar":
-            data_inicio = request.form.get["data_inicio"]
-            data_final = request.form.get["data_final"]
+            data_inicio = request.form.get("data_inicio")
+            data_final = request.form.get("data_final")
             
             if data_inicio:
                 data_refeicoes_inicio = datetime.strptime(data_inicio,"%Y-%m-%d").date()

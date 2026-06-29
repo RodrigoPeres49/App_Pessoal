@@ -21,7 +21,7 @@ def add_cardio():
 
     if request.method == "POST":
         
-        acao = request.form.get["acao"]
+        acao = request.form.get("acao")
         
         if acao == "salvar":
 
@@ -54,8 +54,8 @@ def add_cardio():
             return redirect("/cardio")
         
         elif acao == "filtrar":
-            data_inicio = request.form.get["data_inicio"]
-            data_final = request.form.get["data_final"]
+            data_inicio = request.form.get("data_inicio")
+            data_final = request.form.get("data_final")
             
         if data_inicio:
             data_cardio_inicio = datetime.strptime(data_inicio,"%Y-%m-%d").date()

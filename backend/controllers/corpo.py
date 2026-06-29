@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, session
 from math import log10
 from models import Usuario
-from datetime import date
+from datetime import date, datetime
 
 from models import (
     db,
@@ -528,7 +528,7 @@ def registrar_pressao():
 
     if request.method == "POST":
         
-        acao = request.form.get["acao"]
+        acao = request.form.get("acao")
         
         if acao == "salvar":
 
@@ -550,6 +550,16 @@ def registrar_pressao():
                 mensagem="Pressão registrada com sucesso!",
                 link="/pressao"
             )
+            
+        elif acao == "filtrar":
+            data_inicio = request.form.get("data_inicio")
+            data_final = request.form.get("data_final")
+            
+        if data_inicio:
+            data_pressao_inicio = datetime.strptime(data_inicio,"%Y-%m-%d").date()
+
+        if data_final:
+            data_pressao_final = datetime.strptime(data_final,"%Y-%m-%d").date()
 
     query = Pressao.query.filter_by(usuario_id=session["usuario_id"])
 
