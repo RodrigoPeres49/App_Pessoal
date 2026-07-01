@@ -163,11 +163,18 @@ def avaliacao_fisica():
         
         carboidratos_diarios = round((calorias_diarias - calorias_proteina - calorias_gordura)/4,0)
         
+        # AGUA
+        
+        meta_agua_diaria = round((peso * 35) + 750, 0)
+        
+        
+        
         usuario.calorias_diarias = calorias_diarias
         usuario.proteinas_diarias = proteinas_diarias
         usuario.carboidratos_diarios = carboidratos_diarios
         usuario.fibras_diarias = fibras_diarias
         usuario.gorduras_diarias = gorduras_diarias
+        usuario.meta_agua_diaria = meta_agua_diaria
         
         
 
@@ -363,7 +370,7 @@ def editar_avalicao(id):
         usuario.massa_gorda = avaliacao.massa_gorda
         usuario.meta_massa_magra = avaliacao.meta_massa_magra
         usuario.meta_massa_gorda = avaliacao.meta_massa_gorda
-        usuario.pecentual_gordura = avaliacao.percentual_gordura
+        usuario.percentual_gordura = avaliacao.percentual_gordura
         usuario.imc = avaliacao.imc
         
         # USUARIO RECEBENDO QUANTIDADES DIÁRIAS
@@ -392,11 +399,16 @@ def editar_avalicao(id):
         
         carboidratos_diarios = round((calorias_diarias - calorias_proteina - calorias_gordura)/4,0)
         
+        # AGUA
+        
+        meta_agua_diaria = round((peso * 35) + 750, 0)
+        
         usuario.calorias_diarias = calorias_diarias
         usuario.proteinas_diarias = proteinas_diarias
         usuario.carboidratos_diarios = carboidratos_diarios
         usuario.fibras_diarias = fibras_diarias
         usuario.gorduras_diarias = gorduras_diarias
+        usuario.meta_agua_diaria = meta_agua_diaria
 
         db.session.commit()
 
@@ -431,13 +443,6 @@ def excluir_avaliacao(id):
             link="/avaliacao-fisica"
         )
 
-    if not avaliacao:
-
-        return render_template(
-            "mensagem.html",
-            mensagem="Avaliação não encontrada.",
-            link="/avaliacao-fisica"
-        )
 
     if perimetros:
         db.session.delete(perimetros)
@@ -466,17 +471,21 @@ def excluir_avaliacao(id):
         usuario.imc = ultima_avaliacao.imc
     
         # REFAZER CÁLCULOS DIÁRIOS
+        
+        # CALORIAS
     
         tmb = 370 + (21.6 * ultima_avaliacao.massa_magra)
         fator_atividade = 1.55
         calorias_manutencao = round(tmb * fator_atividade,0)
         calorias_diarias = round(calorias_manutencao * 0.90, 0)
+        
+        # PROTEINAS, GORDURAS, FIBRAS
     
         proteinas_diarias = round(ultima_avaliacao.peso * 2,0)
-    
         gorduras_diarias = round(ultima_avaliacao.peso * 0.8,0)
-    
         fibras_diarias = round(calorias_diarias / 1000 * 14,0)
+        
+        # CARBOIDRATOS
     
         calorias_proteina = proteinas_diarias * 4
         calorias_gordura = gorduras_diarias * 9
@@ -489,21 +498,27 @@ def excluir_avaliacao(id):
             ) / 4,
             0
         )
+        
+        # AGUA
+        
+        meta_agua_diaria = round((usuario.peso * 35) + 750, 0)
     
         usuario.calorias_diarias = calorias_diarias
         usuario.proteinas_diarias = proteinas_diarias
         usuario.gorduras_diarias = gorduras_diarias
         usuario.fibras_diarias = fibras_diarias
         usuario.carboidratos_diarios = carboidratos_diarios
+        usuario.meta_agua_diaria = meta_agua_diaria
         
         db.session.commit()
         
     else:
-        usuario.calorias_diarias = 0
-        usuario.proteinas_diarias = 0
-        usuario.gorduras_diarias = 0
-        usuario.fibras_diarias = 0
-        usuario.carboidratos_diarios = 0
+        usuario.calorias_diarias = None
+        usuario.proteinas_diarias = None
+        usuario.gorduras_diarias = None
+        usuario.fibras_diarias = None
+        usuario.carboidratos_diarios = None
+        usuario.meta_agua_diaria = None
         
         db.session.commit()
 

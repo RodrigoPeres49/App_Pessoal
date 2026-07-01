@@ -14,6 +14,7 @@ class Usuario(db.Model):
     sexo = db.Column(db.String(20), nullable=False)
     peso = db.Column(db.Float, nullable=True)
     altura = db.Column(db.Float, nullable=True)
+    meta_agua_diaria = db.Column(db.Float, default=0)
     calorias_diarias = db.Column(db.Float, nullable=True)
     carboidratos_diarios = db.Column(db.Float, nullable=True)
     proteinas_diarias = db.Column(db.Float, nullable=True)
@@ -212,3 +213,12 @@ class Pressao(db.Model):
 
     def __repr__(self):
         return f"<Pressao {self.sistolica}/{self.diastolica}>"
+
+
+class Agua(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer, nullable=False)
+    data = db.Column(db.Date, nullable=False)
+    hora = db.Column(db.String(5))
+    quantidade = db.Column(db.Float, nullable=False)  # em mL
+    observacoes = db.Column(db.Text)

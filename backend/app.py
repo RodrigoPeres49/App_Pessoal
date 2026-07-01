@@ -5,6 +5,7 @@ from controllers.exercicios import bp_exercicios
 from controllers.refeicoes import bp_refeicoes
 from controllers.cardio import bp_cardio
 from controllers.corpo import bp_corpo
+from controllers.agua import bp_agua
 from controllers.auth import bp_auth
 from database import db
 from models import Alimento, ListaExercicio, Refeicao, Cardio, Exercicio, Usuario
@@ -162,6 +163,7 @@ app.register_blueprint(bp_refeicoes)
 app.register_blueprint(bp_corpo)
 app.register_blueprint(bp_cardio)
 app.register_blueprint(bp_auth)
+app.register_blueprint(bp_agua)
 
 if __name__ == "__main__":
     app.run()
