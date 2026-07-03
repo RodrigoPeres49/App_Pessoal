@@ -8,15 +8,14 @@
 
     <form method="POST">
     
-        <label>Exercício:</label><br>
-            <select name="exercicio" required>
-                {% for ex in exercicios %}
-                    <option value="{{ ex.exercicio }}"
-                        {% if ex.exercicio == exercicio.exercicio %}selected{% endif %}>
-                        {{ ex.exercicio }}
-                    </option>
-                {% endfor %}
-            </select>
+        <label>Exercício:</label>
+         <input type="text" name="exercicio" list="lista_exercicios" value="{{exercicio.exercicio}}" required>
+        
+        <datalist id="lista_exercicios">
+            {% for ex in exercicios %}
+                <option value="{{ ex.exercicio }}">{{ ex.exercicio }}</option>
+            {% endfor %}
+        </datalist>
     
         <label>Série</label>
         <select name="serie" required>

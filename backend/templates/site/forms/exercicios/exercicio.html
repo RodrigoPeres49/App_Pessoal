@@ -7,14 +7,14 @@
     <form method="POST">
     
         <label>Exercício:</label>
-        <select name="exercicio" required>
-            <option value="">Selecione um exercício</option>
-
+         <input type="text" name="exercicio" list="lista_exercicios" placeholder="Digite o nome do exercício..." autocomplete="off" required>
+        
+        <datalist id="lista_exercicios">
             {% for ex in exercicios %}
                 <option value="{{ ex.exercicio }}">{{ ex.exercicio }}</option>
             {% endfor %}
-    
-        </select>
+        </datalist>
+
     
         <label>Série</label>
         <select name="serie" id="series" required>

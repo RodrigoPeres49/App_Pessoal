@@ -8,15 +8,15 @@
 
     <form method="POST">
     
-    <label>Nova refeição:</label><br>
-            <select name="alimento" required>
-                <option value="">Selecione um alimento</option>
+        <label>Alimento:</label>
         
-                {% for ex in refeicoes %}
-                    <option value="{{ ex.alimento }}">{{ ex.alimento }}</option>
-                {% endfor %}
-    
-            </select>
+        <input type="text" name="alimento" list="lista_alimentos" placeholder="Digite o nome do alimento..." autocomplete="off" required>
+        
+        <datalist id="lista_alimentos">
+            {% for ex in refeicoes %}
+                <option value="{{ ex.alimento }}">
+            {% endfor %}
+        </datalist>
     
         <label>Quantidade (g ou unidade):</label>
         <input type="text" name="quantidade" required>

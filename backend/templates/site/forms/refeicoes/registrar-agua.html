@@ -1,0 +1,63 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<h2>Registrar consumo de Água</h2>
+
+<div class="form">
+
+    <form method="POST">
+
+
+        <label>Consumo de agua em ML</label>
+        <input type="text" name="quantidade" required>
+
+        <label>Observações (Opcional)</label>
+        <textarea name="observacoes"></textarea>
+         
+
+        <button type="submit" name="acao" value="salvar">Salvar</button>
+    
+    </form>
+</div>
+
+<form method="POST">
+    <label>Data início</label>
+    <input type="date" name="data_inicio">
+    <label>Data final</label>
+    <input type="date" name="data_final">
+    <button type="submit" name="acao" value="filtrar">Filtrar</button>
+</form>
+
+
+<div class="lista">
+    <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>ML</th>
+            <th>Observações</th>
+            <th>Ações</th>
+          </tr> 
+        </thead>
+        <tbody>
+            
+            {% for ex in lista %}
+            <tr>
+                <td>{{ ex.data.strftime("%d/%m/%Y") }}</td>
+                <td>{{ ex.hora }}</td>
+                <td>{{ ex.quantidade }}</td>
+                <td>{{ ex.observacoes }}</td>
+                <td><a class="acao" href="/editar-agua/{{ex.id}}">Editar</a><a class="acao" href="/excluir-agua/{{ex.id}}">Excluir</a></td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+</div>
+
+
+<a class="acao" href="/">Voltar</a>
+{% endblock %}

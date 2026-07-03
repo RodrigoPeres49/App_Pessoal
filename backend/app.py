@@ -8,7 +8,7 @@ from controllers.corpo import bp_corpo
 from controllers.agua import bp_agua
 from controllers.auth import bp_auth
 from database import db
-from models import Alimento, ListaExercicio, Refeicao, Cardio, Exercicio, Usuario
+from models import Alimento, ListaExercicio, Refeicao, Cardio, Exercicio, Usuario, Agua
 import pandas as pd
 from datetime import datetime
 import os
@@ -24,7 +24,9 @@ if uri and uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
     
 if not uri:
-    uri = "sqlite:///database.db"
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+    db_path = os.path.join(BASE_DIR, "instance", "database.db")
+    uri = f"sqlite:///{db_path}"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = uri
 
@@ -33,51 +35,62 @@ db.init_app(app)
 with app.app_context():
 
     migrate = Migrate(app, db)
+    
+with app.app_context():
+    print("Banco absoluto:", db.engine.url.database)
+    print("Existe?", os.path.exists(db.engine.url.database))
 
     # IMPORTAR ALIMENTOS
 
-    if Alimento.query.count() == 0:
-
-        df_alimentos = pd.read_excel(
-            "Tabelas.xlsx",
-            sheet_name="Alimentos"
-        )
-
-        for _, row in df_alimentos.iterrows():
-
-            novo_alimento = Alimento(
-                alimento=row["Alimento"],
-                calorias=float(row["Calorias"]),
-                proteinas=float(row["Proteinas"]),
-                carboidratos=float(row["Carboidratos"]),
-                fibras=float(row["Fibras"]),
-                gorduras=float(row["Gorduras"])
+    try:
+    
+        if Alimento.query.count() == 0:
+    
+            df_alimentos = pd.read_excel(
+                "Tabelas.xlsx",
+                sheet_name="Alimentos"
             )
-
-            db.session.add(novo_alimento)
-
-        print("Alimentos importados!")
-
+    
+            for _, row in df_alimentos.iterrows():
+    
+                novo_alimento = Alimento(
+                    alimento=row["Alimento"],
+                    calorias=float(row["Calorias"]),
+                    proteinas=float(row["Proteinas"]),
+                    carboidratos=float(row["Carboidratos"]),
+                    fibras=float(row["Fibras"]),
+                    gorduras=float(row["Gorduras"])
+                )
+    
+                db.session.add(novo_alimento)
+    
+    except Exception:
+        pass
+    
     # IMPORTAR EXERCÍCIOS
 
-    if ListaExercicio.query.count() == 0:
-
-        df_exercicios = pd.read_excel(
-            "Tabelas.xlsx",
-            sheet_name="Exercicios"
-        )
-        
-        for _, row in df_exercicios.iterrows():
-
-            novo_exercicio = ListaExercicio(
-                exercicio=row["Exercicio"],
-                grupo_muscular=row["Grupo Muscular"],
-                fator_calorias = float(row["Fator_Calorias"])
+    try:
+        if ListaExercicio.query.count() == 0:
+    
+            df_exercicios = pd.read_excel(
+                "Tabelas.xlsx",
+                sheet_name="Exercicios"
             )
-
-            db.session.add(novo_exercicio)
-
-        print("Exercícios importados!")
+            
+            for _, row in df_exercicios.iterrows():
+    
+                novo_exercicio = ListaExercicio(
+                    exercicio=row["Exercicio"],
+                    grupo_muscular=row["Grupo Muscular"],
+                    fator_calorias = float(row["Fator_Calorias"])
+                )
+    
+                db.session.add(novo_exercicio)
+    
+            print("Exercícios importados!")
+        
+    except Exception:
+        pass
 
     db.session.commit()
 
@@ -142,6 +155,13 @@ def index():
         Refeicao.data == hoje
     ).scalar() or 0
     
+    agua_consumida = db.session.query(
+        func.sum(Agua.quantidade)
+    ).filter(
+        Refeicao.usuario_id == usuario.id,
+        Refeicao.data == hoje
+    ).scalar() or 0
+    
 
     return render_template(
         "site/body.html",
@@ -151,6 +171,7 @@ def index():
         carboidratos_consumidos=round(carboidratos_consumidos,2),
         fibras_consumidas=round(fibras_consumidas,2),
         gorduras_consumidas=round(gorduras_consumidas,2),
+        agua_consumida=round(agua_consumida,2),
         calorias_cardio = calorias_cardio,
         hoje = hoje
     )

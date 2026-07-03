@@ -7,16 +7,16 @@
 <div class="form">
 
     <form method="POST">
-    
-    <label>Alimento:</label><br>
-            <select name="alimento" required>
-                <option value="{{refeicao.alimento}}">{{refeicao.alimento}}</option>
+
+    <label>Alimento:</label>
         
-                {% for ex in refeicoes %}
-                    <option value="{{ ex.alimento }}">{{ ex.alimento }}</option>
-                {% endfor %}
-    
-            </select>
+        <input type="text" name="alimento" list="lista_alimentos" value="{{refeicao.alimento}}" required>
+        
+        <datalist id="lista_alimentos">
+            {% for ex in refeicoes %}
+                <option value="{{ ex.alimento }}">
+            {% endfor %}
+        </datalist>
     
         <label>Quantidade (g ou unidade):</label>
         <input type="text" name="quantidade" value="{{refeicao.quantidade}}" required>

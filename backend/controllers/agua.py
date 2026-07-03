@@ -21,16 +21,16 @@ def add_agua():
         acao = request.form.get("acao")
 
         if acao == "salvar":
+            
+            agora = datetime.now()
 
-            data = date.fromisoformat(request.form["data"])
-            hora = request.form["hora"]
             quantidade = float(request.form["quantidade"])
             observacoes = request.form["observacoes"]
 
             novo_registro = Agua(
                 usuario_id=session["usuario_id"],
-                data=data,
-                hora=hora,
+                data=agora,
+                hora=agora.strftime("%H:%M:%S"),
                 quantidade=quantidade,
                 observacoes=observacoes
             )
@@ -79,7 +79,7 @@ def add_agua():
     ).all()
 
     return render_template(
-        "site/forms/agua/registrar-agua.html",
+        "site/forms/refeicoes/registrar-agua.html",
         lista=lista
     )
 
@@ -117,7 +117,7 @@ def editar_agua(id):
         )
 
     return render_template(
-        "site/forms/agua/agua-edicao.html",
+        "site/forms/refeicoes/editar-agua.html",
         agua=agua
     )
 

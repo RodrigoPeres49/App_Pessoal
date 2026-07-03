@@ -87,11 +87,25 @@
             </tr>
         </table>
 
+        <table>
+            <tr>
+                <th colspan="2">Consumo de água diário</th>
+            </tr>
+            <tr>
+                <td>Meta</td>
+                <td>Consumo</td>
+            </tr>
+            <tr>
+                <td>{{ usuario.meta_agua_diaria }}</td>
+                <td>{{ agua_consumida }}</td>
+            </tr>
+        </table>
 
     </div>
     <div class="comandos">
         <h2>Selecione uma alternativa:</h2>
         <a href="/alimentacao">Refeição</a>
+        <a href="/agua">Água</a>
         <a href="/exercicio">Exercício</a>
         <a href="/cardio">Registrar Cárdio</a>
         <a href="/avaliacao-fisica">Avaliação Física</a>

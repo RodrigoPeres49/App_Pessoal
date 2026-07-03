@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<h2>Editar consumo de Água</h2>
+
+<div class="form">
+
+    <form method="POST">
+
+        <label>Data</label>
+        <input type="date" name="data" value="{{agua.data}}" required>
+
+        <label>Hora</label>
+        <input type="time" name="hora" value="{{agua.hora}}" required>
+
+        <label>Consumo de agua em ML</label>
+        <input type="text" name="quantidade" value="{{agua.quantidade}}" required>
+
+        <label>Observações (Opcional)</label>
+        <textarea name="observacoes">{{agua.observacoes}}</textarea>
+         
+
+        <button type="submit">Salvar</button>
+    
+    </form>
+</div>
+
+<a class="acao" href="/agua">Voltar</a>
+{% endblock %}
