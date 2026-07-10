@@ -401,7 +401,7 @@ def editar_avalicao(id):
         
         # AGUA
         
-        meta_agua_diaria = round((peso * 35) + 750, 0)
+        meta_agua_diaria = round((avaliacao.peso * 35) + 750, 0)
         
         usuario.calorias_diarias = calorias_diarias
         usuario.proteinas_diarias = proteinas_diarias
