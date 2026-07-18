@@ -9,6 +9,7 @@ from controllers.agua import bp_agua
 from controllers.auth import bp_auth
 from database import db
 from models import Alimento, ListaExercicio, Refeicao, Cardio, Exercicio, Usuario, Agua
+from cache import carregar_cache
 import pandas as pd
 from datetime import datetime
 import os
@@ -175,9 +176,16 @@ def index():
         calorias_cardio = calorias_cardio,
         hoje = hoje
     )
+
 @app.route("/inativo")
 def inativo():
     return render_template("mensagem.html", mensagem="Modo inativo no momento", link = "/")
+
+
+from cache import carregar_cache
+
+with app.app_context():
+    carregar_cache()
 
 app.register_blueprint(bp_exercicios)
 app.register_blueprint(bp_refeicoes)
@@ -185,6 +193,7 @@ app.register_blueprint(bp_corpo)
 app.register_blueprint(bp_cardio)
 app.register_blueprint(bp_auth)
 app.register_blueprint(bp_agua)
+
 
 if __name__ == "__main__":
     app.run()

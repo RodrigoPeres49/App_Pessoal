@@ -1,6 +1,7 @@
 from flask import request, render_template, Blueprint, session
 from datetime import datetime, date
 from models import db, Refeicao, Alimento
+from cache import ALIMENTOS_CACHE
 
 bp_refeicoes = Blueprint("refeicoes", __name__)
 
@@ -14,7 +15,7 @@ def add_refeicao():
     data_inicio = None
     data_final = None
 
-    alimentos = Alimento.query.all()
+    alimentos = ALIMENTOS_CACHE.values()
 
     if request.method == "POST":
         
@@ -25,9 +26,7 @@ def add_refeicao():
             alimento_nome = request.form["alimento"]
             quantidade = float(request.form["quantidade"].replace(",", "."))
     
-            alimento = Alimento.query.filter_by(
-                alimento=alimento_nome
-            ).first()
+            alimento = ALIMENTOS_CACHE.get(alimento_nome)
     
             if alimento:
     
@@ -111,16 +110,14 @@ def editar_refeicao(id):
             link="/alimentacao"
         )
 
-    alimentos = Alimento.query.all()
+    alimentos = ALIMENTOS_CACHE.values()
 
     if request.method == "POST":
 
         alimento_nome = request.form["alimento"]
         quantidade = float(request.form["quantidade"].replace(",", "."))
 
-        alimento = Alimento.query.filter_by(
-            alimento=alimento_nome
-        ).first()
+        alimento = ALIMENTOS_CACHE.get(alimento_nome)
 
         if alimento:
 

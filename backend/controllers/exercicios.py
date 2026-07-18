@@ -2,6 +2,7 @@ from flask import request, render_template, Blueprint, session, redirect
 from datetime import datetime, date
 from models import Exercicio, ListaExercicio, Usuario
 from database import db
+from cache import EXERCICIOS_CACHE
 
 bp_exercicios = Blueprint("exercicios", __name__)
 
@@ -16,7 +17,7 @@ def add_exercicio():
     data_inicio = None
     data_final = None
     
-    lista_exercicios = ListaExercicio.query.all()
+    lista_exercicios = EXERCICIOS_CACHE.values()
     usuario = Usuario.query.get(session["usuario_id"])
 
     if request.method == "POST":
@@ -105,7 +106,7 @@ def editar_exercicio(id):
             link="/exercicio"
         )
 
-    lista_exercicios = ListaExercicio.query.all()
+    lista_exercicios = EXERCICIOS_CACHE.values()
 
     if request.method == "POST":
 
