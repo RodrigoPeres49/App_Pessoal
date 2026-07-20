@@ -10,7 +10,10 @@ bp_agua = Blueprint("agua", __name__)
 
 @bp_agua.route("/agua", methods=["GET", "POST"])
 def add_agua():
-
+    
+    if "usuario_id" not in session:
+        return redirect("/login")
+    
     data_agua_inicio = None
     data_agua_final = None
     data_inicio = None
@@ -24,7 +27,7 @@ def add_agua():
             
             agora = datetime.now()
 
-            quantidade = float(request.form["quantidade"])
+            quantidade = float(request.form["quantidade"].replace(",", "."))
             observacoes = request.form["observacoes"]
 
             novo_registro = Agua(
