@@ -32,7 +32,7 @@ def add_agua():
 
             novo_registro = Agua(
                 usuario_id=session["usuario_id"],
-                data=agora,
+                data=agora.date(),
                 hora=agora.strftime("%H:%M:%S"),
                 quantidade=quantidade,
                 observacoes=observacoes

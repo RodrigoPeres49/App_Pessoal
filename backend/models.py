@@ -216,9 +216,12 @@ class Pressao(db.Model):
 
 
 class Agua(db.Model):
+    
+    __tablename__ = "agua"
+    
     id = db.Column(db.Integer, primary_key=True)
     usuario_id = db.Column(db.Integer, nullable=False)
     data = db.Column(db.Date, nullable=False)
     hora = db.Column(db.String(5))
-    quantidade = db.Column(db.Float, nullable=False)  # em mL
+    quantidade = db.Column(db.Float, nullable=False)  
     observacoes = db.Column(db.Text)

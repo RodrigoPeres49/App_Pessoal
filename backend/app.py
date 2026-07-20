@@ -159,8 +159,8 @@ def index():
     agua_consumida = db.session.query(
         func.sum(Agua.quantidade)
     ).filter(
-        Refeicao.usuario_id == usuario.id,
-        Refeicao.data == hoje
+        Agua.usuario_id == usuario.id,
+        Agua.data == hoje
     ).scalar() or 0
     
 
