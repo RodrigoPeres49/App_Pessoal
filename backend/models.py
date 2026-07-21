@@ -222,6 +222,6 @@ class Agua(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     usuario_id = db.Column(db.Integer,db.ForeignKey("usuarios.id"),nullable=False)
     data = db.Column(db.Date, nullable=False)
-    hora = db.Column(db.String(5))
+    hora = db.Column(db.String(20))
     quantidade = db.Column(db.Float, nullable=False)  
     observacoes = db.Column(db.Text)
