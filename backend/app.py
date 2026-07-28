@@ -43,30 +43,30 @@ with app.app_context():
 
     # IMPORTAR ALIMENTOS
 
-    try:
-    
-        if Alimento.query.count() == 0:
-    
-            df_alimentos = pd.read_excel(
-                "Tabelas.xlsx",
-                sheet_name="Alimentos"
+try:
+
+    if Alimento.query.count() == 0:
+
+        df_alimentos = pd.read_excel(
+            "Tabelas.xlsx",
+            sheet_name="Alimentos"
+        )
+
+        for _, row in df_alimentos.iterrows():
+
+            novo_alimento = Alimento(
+                alimento=row["Alimento"],
+                calorias=float(row["Calorias"]),
+                proteinas=float(row["Proteinas"]),
+                carboidratos=float(row["Carboidratos"]),
+                fibras=float(row["Fibras"]),
+                gorduras=float(row["Gorduras"])
             )
-    
-            for _, row in df_alimentos.iterrows():
-    
-                novo_alimento = Alimento(
-                    alimento=row["Alimento"],
-                    calorias=float(row["Calorias"]),
-                    proteinas=float(row["Proteinas"]),
-                    carboidratos=float(row["Carboidratos"]),
-                    fibras=float(row["Fibras"]),
-                    gorduras=float(row["Gorduras"])
-                )
-    
-                db.session.add(novo_alimento)
-    
-    except Exception:
-        pass
+
+            db.session.add(novo_alimento)
+
+except Exception:
+    pass
     
     # IMPORTAR EXERCÍCIOS
 
@@ -182,14 +182,11 @@ def inativo():
     return render_template("mensagem.html", mensagem="Modo inativo no momento", link = "/")
 
 
-from cache import carregar_cache
-
-with app.app_context():
-    try:
+try:
+    with app.app_context():
         carregar_cache()
-        print("Cache carregado com sucesso")
-    except Exception as e:
-        print(f"Erro ao carregar cache: {e}")
+except Exception as e:
+    print("Erro ao carregar cache:", e)
 
 app.register_blueprint(bp_exercicios)
 app.register_blueprint(bp_refeicoes)
