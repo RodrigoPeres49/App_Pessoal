@@ -185,7 +185,11 @@ def inativo():
 from cache import carregar_cache
 
 with app.app_context():
-    carregar_cache()
+    try:
+        carregar_cache()
+        print("Cache carregado com sucesso")
+    except Exception as e:
+        print(f"Erro ao carregar cache: {e}")
 
 app.register_blueprint(bp_exercicios)
 app.register_blueprint(bp_refeicoes)
