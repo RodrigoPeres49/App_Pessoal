@@ -70,28 +70,28 @@ except Exception:
     
     # IMPORTAR EXERCÍCIOS
 
-    try:
-        if ListaExercicio.query.count() == 0:
-    
-            df_exercicios = pd.read_excel(
-                "Tabelas.xlsx",
-                sheet_name="Exercicios"
-            )
-            
-            for _, row in df_exercicios.iterrows():
-    
-                novo_exercicio = ListaExercicio(
-                    exercicio=row["Exercicio"],
-                    grupo_muscular=row["Grupo Muscular"],
-                    fator_calorias = float(row["Fator_Calorias"])
-                )
-    
-                db.session.add(novo_exercicio)
-    
-            print("Exercícios importados!")
+try:
+    if ListaExercicio.query.count() == 0:
+
+        df_exercicios = pd.read_excel(
+            "Tabelas.xlsx",
+            sheet_name="Exercicios"
+        )
         
-    except Exception:
-        pass
+        for _, row in df_exercicios.iterrows():
+
+            novo_exercicio = ListaExercicio(
+                exercicio=row["Exercicio"],
+                grupo_muscular=row["Grupo Muscular"],
+                fator_calorias = float(row["Fator_Calorias"])
+            )
+
+            db.session.add(novo_exercicio)
+
+        print("Exercícios importados!")
+    
+except Exception:
+    pass
 
     db.session.commit()
 
@@ -182,11 +182,11 @@ def inativo():
     return render_template("mensagem.html", mensagem="Modo inativo no momento", link = "/")
 
 
-try:
-    with app.app_context():
-        carregar_cache()
-except Exception as e:
-    print("Erro ao carregar cache:", e)
+# try:
+#     with app.app_context():
+#         carregar_cache()
+# except Exception as e:
+#     print("Erro ao carregar cache:", e)
 
 app.register_blueprint(bp_exercicios)
 app.register_blueprint(bp_refeicoes)
