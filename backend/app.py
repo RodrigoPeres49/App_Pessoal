@@ -182,11 +182,11 @@ def inativo():
     return render_template("mensagem.html", mensagem="Modo inativo no momento", link = "/")
 
 
-# try:
-#     with app.app_context():
-#         carregar_cache()
-# except Exception as e:
-#     print("Erro ao carregar cache:", e)
+try:
+    with app.app_context():
+        carregar_cache()
+except Exception as e:
+    print("Erro ao carregar cache:", e)
 
 app.register_blueprint(bp_exercicios)
 app.register_blueprint(bp_refeicoes)

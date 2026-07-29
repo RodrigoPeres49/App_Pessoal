@@ -4,15 +4,28 @@ EXERCICIOS_CACHE = {}
 def carregar_cache():
     from models import Alimento, ListaExercicio
 
-    ALIMENTOS_CACHE.clear()
-    EXERCICIOS_CACHE.clear()
+    print("Carregando alimentos...")
 
+    alimentos = Alimento.query.all()
+
+    print(f"{len(alimentos)} alimentos carregados")
+
+    ALIMENTOS_CACHE.clear()
     ALIMENTOS_CACHE.update({
         alimento.alimento: alimento
-        for alimento in Alimento.query.all()
+        for alimento in alimentos
     })
 
+    print("Carregando exercícios...")
+
+    exercicios = ListaExercicio.query.all()
+
+    print(f"{len(exercicios)} exercícios carregados")
+
+    EXERCICIOS_CACHE.clear()
     EXERCICIOS_CACHE.update({
         exercicio.exercicio: exercicio
-        for exercicio in ListaExercicio.query.all()
+        for exercicio in exercicios
     })
+
+    print("Cache carregado")
