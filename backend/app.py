@@ -37,61 +37,59 @@ with app.app_context():
 
     migrate = Migrate(app, db)
     
-with app.app_context():
-    print("Banco absoluto:", db.engine.url.database)
-    print("Existe?", os.path.exists(db.engine.url.database))
+    
 
     # IMPORTAR ALIMENTOS
 
-try:
-
-    if Alimento.query.count() == 0:
-
-        df_alimentos = pd.read_excel(
-            "Tabelas.xlsx",
-            sheet_name="Alimentos"
-        )
-
-        for _, row in df_alimentos.iterrows():
-
-            novo_alimento = Alimento(
-                alimento=row["Alimento"],
-                calorias=float(row["Calorias"]),
-                proteinas=float(row["Proteinas"]),
-                carboidratos=float(row["Carboidratos"]),
-                fibras=float(row["Fibras"]),
-                gorduras=float(row["Gorduras"])
-            )
-
-            db.session.add(novo_alimento)
-
-except Exception:
-    pass
+    try:
     
-    # IMPORTAR EXERCÍCIOS
-
-try:
-    if ListaExercicio.query.count() == 0:
-
-        df_exercicios = pd.read_excel(
-            "Tabelas.xlsx",
-            sheet_name="Exercicios"
-        )
+        if Alimento.query.count() == 0:
+    
+            df_alimentos = pd.read_excel(
+                "Tabelas.xlsx",
+                sheet_name="Alimentos"
+            )
+    
+            for _, row in df_alimentos.iterrows():
+    
+                novo_alimento = Alimento(
+                    alimento=row["Alimento"],
+                    calorias=float(row["Calorias"]),
+                    proteinas=float(row["Proteinas"]),
+                    carboidratos=float(row["Carboidratos"]),
+                    fibras=float(row["Fibras"]),
+                    gorduras=float(row["Gorduras"])
+                )
+    
+                db.session.add(novo_alimento)
+    
+    except Exception:
+        pass
         
-        for _, row in df_exercicios.iterrows():
-
-            novo_exercicio = ListaExercicio(
-                exercicio=row["Exercicio"],
-                grupo_muscular=row["Grupo Muscular"],
-                fator_calorias = float(row["Fator_Calorias"])
-            )
-
-            db.session.add(novo_exercicio)
-
-        print("Exercícios importados!")
+        # IMPORTAR EXERCÍCIOS
     
-except Exception:
-    pass
+    try:
+        if ListaExercicio.query.count() == 0:
+    
+            df_exercicios = pd.read_excel(
+                "Tabelas.xlsx",
+                sheet_name="Exercicios"
+            )
+            
+            for _, row in df_exercicios.iterrows():
+    
+                novo_exercicio = ListaExercicio(
+                    exercicio=row["Exercicio"],
+                    grupo_muscular=row["Grupo Muscular"],
+                    fator_calorias = float(row["Fator_Calorias"])
+                )
+    
+                db.session.add(novo_exercicio)
+    
+            print("Exercícios importados!")
+        
+    except Exception:
+        pass
 
     db.session.commit()
 
